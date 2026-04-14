@@ -1,5 +1,10 @@
 # 🏦 FinTech Data Quality Validation Engine v2.0
 
+[![CI/CD Pipeline](https://github.com/Kaique-Martins/fintech-validation-system/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/Kaique-Martins/fintech-validation-system/actions/workflows/ci-cd.yml)
+[![Dependency Check](https://github.com/Kaique-Martins/fintech-validation-system/actions/workflows/dependency-check.yml/badge.svg)](https://github.com/Kaique-Martins/fintech-validation-system/actions/workflows/dependency-check.yml)
+[![Node.js 18+](https://img.shields.io/badge/Node.js-18%2B-green)](https://nodejs.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 Sistema completo (fullstack) para validação autônoma de dados em operações de crédito, compliance e análise de risco de crédito.
 
 ## 🎯 Visão Geral
