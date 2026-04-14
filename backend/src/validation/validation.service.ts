@@ -13,6 +13,13 @@ import {
 } from './dto/validation.dto';
 import { PrecisionAlgorithms } from './algorithms/precision.algorithm';
 import { AdvancedBusinessRules } from './algorithms/business-rules';
+import {
+  InvalidPriceException,
+  InvalidCategoryException,
+  InvalidCityException,
+  InvalidProductNameException,
+} from '../common/exceptions';
+import { AppLogger } from '../common/logger';
 
 interface Tuple<T> {
   value: T;
@@ -162,29 +169,35 @@ export class ValidationService {
     price: number,
     category: string,
   ): { isValid: boolean; reason: string; quality: number; confidence: number } {
-    if (price <= 0) {
+    try {
+      if (typeof price !== 'number' || isNaN(price)) {
+        throw new InvalidPriceException(price, 'Valor não é um número válido');
+      }
+
+      if (price <= 0) {
+        throw new InvalidPriceException(price, 'valor não pode ser ≤ 0');
+      }
+
+      const marketRange = MARKET_PRICES[category] || MARKET_PRICES['Outros'];
+      const { min: minPrice, max: maxPrice } = marketRange;
+
+      // Análise avançada
+      const analysis = AdvancedBusinessRules.analyzePriceAnomaly(price, category);
+
       return {
-        isValid: false,
-        reason: `Preço inválido: R$ ${price.toFixed(2)} (valor não pode ser ≤ 0)`,
-        quality: 0,
-        confidence: 5,
+        isValid: analysis.isValid,
+        reason: analysis.alerts
+          .map((a) => `${a.severity}: ${a.message}`)
+          .join(' | '),
+        quality: analysis.quality,
+        confidence: analysis.confidence,
       };
+    } catch (error) {
+      if (error instanceof InvalidPriceException) {
+        throw error;
+      }
+      throw new InvalidPriceException(price, `Erro ao validar: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
     }
-
-    const marketRange = MARKET_PRICES[category] || MARKET_PRICES['Outros'];
-    const { min: minPrice, max: maxPrice } = marketRange;
-
-    // Análise avançada
-    const analysis = AdvancedBusinessRules.analyzePriceAnomaly(price, category);
-
-    return {
-      isValid: analysis.isValid,
-      reason: analysis.alerts
-        .map((a) => `${a.severity}: ${a.message}`)
-        .join(' | '),
-      quality: analysis.quality,
-      confidence: analysis.confidence,
-    };
   }
 
   /**
@@ -214,6 +227,22 @@ export class ValidationService {
   }
 
   public validate(record: ValidationRecordDto): ValidationResultDto {
+    try {
+      return this.performValidation(record);
+    } catch (error) {
+      // Se é uma exceção customizada, relançar
+      if (error instanceof InvalidPriceException ||
+          error instanceof InvalidCategoryException ||
+          error instanceof InvalidCityException ||
+          error instanceof InvalidProductNameException) {
+        throw error;
+      }
+      // Se é um erro genérico, retornar resultado com status QUARENTENA
+      throw new Error(`Erro durante validação: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
+    }
+  }
+
+  private performValidation(record: ValidationRecordDto): ValidationResultDto {
     const dadoCorrigido: any = Object.assign({}, record);
     let status: 'APROVADO' | 'QUARENTENA' = 'APROVADO';
     const motivos: string[] = [];
@@ -367,6 +396,15 @@ export class ValidationService {
       recommendations,
     };
 
+    // Log da validação
+    AppLogger.logValidation({
+      product: dadoCorrigido.produto,
+      category: dadoCorrigido.categoria,
+      status: resultado.status,
+      qualityScore: resultado.qualityScore,
+      alertsCount: alerts.length,
+    });
+
     return resultado;
   }
 
@@ -394,6 +432,9 @@ export class ValidationService {
     }
 
     const processingTime = Date.now() - startTime;
+
+    // Log do processamento em lote
+    AppLogger.logBatchProcess(records.length, successCounter, records.length - successCounter);
 
     return {
       totalRecords: records.length,
