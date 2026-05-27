@@ -4,6 +4,8 @@ import '../styles/AgentControl.css';
 import ExplanationDisplay from './ExplanationDisplay';
 import AgentEvolutionDashboard from './AgentEvolutionDashboard';
 import AnomalyAlertPanel from './AnomalyAlertPanel';
+import DemoProTab from './DemoProTab';
+import TrainingTab from './TrainingTab';
 
 interface AgentMetrics {
   totalProcessed: number;
@@ -87,15 +89,15 @@ export const AgentControl: React.FC = () => {
   const [config, setConfig] = useState<AgentConfig | null>(null);
   const [learning, setLearning] = useState<LearningStats | null>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'metrics' | 'decisions' | 'config' | 'insights' | 'explainability' | 'evolution' | 'anomalies'>('metrics');
-  const [refreshInterval, setRefreshInterval] = useState<ReturnType<typeof setInterval> | null>(null);
+  const [activeTab, setActiveTab] = useState<'metrics' | 'decisions' | 'config' | 'insights' | 'explainability' | 'evolution' | 'anomalies' | 'demo-pro' | 'training'>('metrics');
+  const [, _setRefreshInterval] = useState<ReturnType<typeof setInterval> | null>(null);
   const [notification, setNotification] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   useEffect(() => {
     loadAgentData();
     // Refresh agent metrics every 5 seconds
     const interval = setInterval(loadAgentData, 5000);
-    setRefreshInterval(interval);
+    _setRefreshInterval(interval);
     return () => clearInterval(interval);
   }, []);
 
@@ -121,9 +123,10 @@ export const AgentControl: React.FC = () => {
 
   const handleToggleRule = async (ruleId: string, currentEnabled: boolean) => {
     try {
+      if (!config) return;
       await axios.put(`/api/agent/config`, {
         ...config,
-        rules: config!.rules.map((r) =>
+        rules: config.rules.map((r) =>
           r.id === ruleId ? { ...r, enabled: !currentEnabled } : r
         ),
       });
@@ -231,6 +234,32 @@ export const AgentControl: React.FC = () => {
           onClick={() => setActiveTab('anomalies')}
         >
           🚨 Anomalias
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'demo-pro' ? 'active' : ''}`}
+          onClick={() => setActiveTab('demo-pro')}
+          style={activeTab !== 'demo-pro' ? {
+            background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+            borderColor: '#059669',
+            color: '#ffffff',
+            fontWeight: 700,
+            boxShadow: '0 4px 14px rgba(16,185,129,0.35)',
+          } : {}}
+        >
+          🎬 Demo Pro
+        </button>
+        <button
+          className={`tab-button ${activeTab === 'training' ? 'active' : ''}`}
+          onClick={() => setActiveTab('training')}
+          style={activeTab !== 'training' ? {
+            background: 'linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)',
+            borderColor: '#7c3aed',
+            color: '#ffffff',
+            fontWeight: 700,
+            boxShadow: '0 4px 14px rgba(168,85,247,0.35)',
+          } : {}}
+        >
+          🧠 Treinamento
         </button>
       </div>
 
@@ -570,6 +599,14 @@ export const AgentControl: React.FC = () => {
         <div className="agent-anomalies-section">
           <AnomalyAlertPanel />
         </div>
+      )}
+
+      {activeTab === 'demo-pro' && (
+        <DemoProTab />
+      )}
+
+      {activeTab === 'training' && (
+        <TrainingTab />
       )}
     </div>
   );

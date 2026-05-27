@@ -1,27 +1,4 @@
-import axios, { AxiosError } from 'axios';
-
-interface ValidationResponse {
-  status: string;
-  qualityScore: number;
-  confidenceLevel: number;
-  dado_original: Record<string, unknown>;
-  dado_corrigido: Record<string, unknown>;
-  alerts: Array<{ type: string; message: string; severity: string }>;
-  rulesApplied: string[];
-  agentDecision?: unknown;
-}
-
-interface BatchItem {
-  result?: ValidationResponse;
-  error?: string;
-}
-
-interface BatchResponse {
-  totalCount: number;
-  successCount: number;
-  failureCount: number;
-  results: BatchItem[];
-}
+import axios from 'axios';
 import { ValidationRecord, ValidationResult } from '../types/validation';
 
 const API_URL = import.meta.env.VITE_API_URL || '/api';

@@ -1,7 +1,7 @@
 /**
  * Repository Factory
  * Allows switching between different implementations without changing application code
- * 
+ *
  * Usage:
  * const repo = RepositoryFactory.create('json');  // or 'database'
  */
@@ -23,23 +23,36 @@ export class RepositoryFactory {
 
     // Auto-detect from environment variable
     if (type === 'auto') {
-      const env = process.env.REPOSITORY_TYPE || process.env.DATABASE_URL ? 'database' : 'json';
-      repositoryType = (env as any);
-      console.log(`[RepositoryFactory] Auto-detected repository type: ${repositoryType}`);
+      const env =
+        process.env.REPOSITORY_TYPE || process.env.DATABASE_URL
+          ? 'database'
+          : 'json';
+      repositoryType = env as any;
+      console.log(
+        `[RepositoryFactory] Auto-detected repository type: ${repositoryType}`,
+      );
     }
 
     switch (repositoryType) {
       case 'json':
-        console.log('[RepositoryFactory] Creating JsonRepository (File-based persistence)');
+        console.log(
+          '[RepositoryFactory] Creating JsonRepository (File-based persistence)',
+        );
         return new JsonRepository();
 
       case 'database':
-        console.log('[RepositoryFactory] Creating DatabaseRepository (Database persistence)');
-        console.warn('⚠️  DatabaseRepository not yet implemented. Switch to "json" or implement database connection.');
+        console.log(
+          '[RepositoryFactory] Creating DatabaseRepository (Database persistence)',
+        );
+        console.warn(
+          '⚠️  DatabaseRepository not yet implemented. Switch to "json" or implement database connection.',
+        );
         return new DatabaseRepository();
 
       default:
-        console.log('[RepositoryFactory] Unknown type, defaulting to JsonRepository');
+        console.log(
+          '[RepositoryFactory] Unknown type, defaulting to JsonRepository',
+        );
         return new JsonRepository();
     }
   }

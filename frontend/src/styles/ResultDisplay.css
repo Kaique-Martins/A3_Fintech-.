@@ -456,6 +456,27 @@
   background: #9ca3af;
 }
 
+/* Skeleton */
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.skeleton-pulse {
+  animation: shimmer 1.4s ease infinite;
+}
+
+/* Score chip */
+.score-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  border: 1px solid;
+  min-width: 90px;
+}
+
 .status-badge {
   display: inline-block;
   padding: 14px 24px;

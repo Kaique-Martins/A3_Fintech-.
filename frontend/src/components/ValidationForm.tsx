@@ -62,16 +62,38 @@ export const ValidationForm: React.FC<ValidationFormProps> = ({ onSubmit, loadin
       </div>
 
       <div className="form-group">
-        <label htmlFor="categoria">Categoria</label>
-        <input
-          type="text"
+        <label htmlFor="categoria">Categoria <span style={{ fontWeight: 400, color: '#94a3b8', fontSize: '0.8rem' }}>(opcional — inferida automaticamente)</span></label>
+        <select
           id="categoria"
           name="categoria"
           value={form.categoria}
           onChange={handleChange}
-          placeholder="Ex: Eletrônicos (deixe vazio para inferir)"
           disabled={loading}
-        />
+          style={{
+            padding: '14px 16px',
+            border: '2px solid var(--border)',
+            borderRadius: '12px',
+            fontSize: '1rem',
+            fontFamily: 'inherit',
+            background: 'white',
+            color: form.categoria ? 'var(--text-dark)' : 'var(--text-light)',
+            cursor: 'pointer',
+            transition: 'all 0.3s ease',
+            appearance: 'none',
+            backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`,
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'right 14px center',
+            paddingRight: '44px',
+          }}
+        >
+          <option value="">🔍 Inferir automaticamente</option>
+          <option value="Eletrônicos">💻 Eletrônicos</option>
+          <option value="Eletrodomésticos">🏠 Eletrodomésticos</option>
+          <option value="Vestuário">👕 Vestuário</option>
+          <option value="Alimentos">🍎 Alimentos</option>
+          <option value="Serviços">🔧 Serviços</option>
+          <option value="Outros">📦 Outros</option>
+        </select>
       </div>
 
       <div className="form-group">

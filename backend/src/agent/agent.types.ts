@@ -6,7 +6,14 @@
 // Union type para valores de condições
 export type RuleConditionValue = string | number | string[] | boolean;
 
-export type RuleFieldType = 'price' | 'quality' | 'qualityScore' | 'confidence' | 'confidenceLevel' | 'alerts' | 'status';
+export type RuleFieldType =
+  | 'price'
+  | 'quality'
+  | 'qualityScore'
+  | 'confidence'
+  | 'confidenceLevel'
+  | 'alerts'
+  | 'status';
 
 export type RuleOperator = 'lessThan' | 'greaterThan' | 'equals' | 'contains';
 
@@ -67,7 +74,10 @@ export interface AgentDecision {
   rulesApplied: string[];
   reasoning: string;
   timestamp: string;
-  isAuto: boolean; // true if agent decided autonomously
+  isAuto: boolean;
+  requestId?: string;
+  ruleVersion?: string;
+  ruleWeights?: Record<string, number>; // peso de feedback por regra aplicada
 }
 
 export const DEFAULT_AGENT_RULES: AgentRule[] = [

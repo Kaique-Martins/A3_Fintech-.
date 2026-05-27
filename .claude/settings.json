@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(Get-ChildItem -Path \"c:\\\\Users\\\\kaiqu\\\\A3_Fintech\" -Directory)",
+      "Bash(Select-Object Name)"
+    ]
+  }
+}

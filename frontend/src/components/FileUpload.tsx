@@ -17,14 +17,14 @@ export const FileUpload: React.FC<{ onUploadComplete?: () => void }> = ({ onUplo
     const headers = lines[0].toLowerCase().split(',').map(h => h.trim());
     const recordsMap: { [key: string]: number } = {};
     
-    ['produto', 'categoria', 'preco', 'cidade'].forEach((field, index) => {
+    ['produto', 'categoria', 'preco', 'cidade'].forEach((field) => {
       const idx = headers.findIndex(h => h.includes(field) || h === field);
       if (idx !== -1) recordsMap[field] = idx;
     });
 
     return lines.slice(1)
       .filter(line => line.trim())
-      .map((line, rowNum) => {
+      .map((line) => {
         const values = line.split(',').map(v => v.trim());
         return {
           produto: values[recordsMap['produto'] || 0] || '',

@@ -11,6 +11,7 @@ import {
   CorrectedDataDto,
   ValidationAlert,
 } from './dto/validation.dto';
+import { BatchProcessResponse, BatchValidationResultDto } from './dto/batch.dto';
 import { PrecisionAlgorithms } from './algorithms/precision.algorithm';
 import { AdvancedBusinessRules } from './algorithms/business-rules';
 import {
@@ -35,10 +36,7 @@ export class ValidationService {
     if (!text || typeof text !== 'string') {
       return '';
     }
-    return text
-      .trim()
-      .toLowerCase()
-      .replace(/\s+/g, ' '); // Remove espaços múltiplos
+    return text.trim().toLowerCase().replace(/\s+/g, ' '); // Remove espaços múltiplos
   }
 
   /**
@@ -77,7 +75,10 @@ export class ValidationService {
 
       for (const [key, value] of Object.entries(CITIES_MAPPING)) {
         const similarity = PrecisionAlgorithms.similarity(normalized, key);
-        if (similarity >= 80 && (!bestMatch || similarity > bestMatch.similarity)) {
+        if (
+          similarity >= 80 &&
+          (!bestMatch || similarity > bestMatch.similarity)
+        ) {
           bestMatch = { city: value, similarity };
         }
       }
@@ -85,7 +86,9 @@ export class ValidationService {
       if (bestMatch) {
         return {
           value: bestMatch.city,
-          reason: `Cidade corrigida com fuzzy matching: '${city}' → '${bestMatch.city}' (${bestMatch.similarity.toFixed(1)}%)`,
+          reason: `Cidade corrigida com fuzzy matching: '${city}' → '${
+            bestMatch.city
+          }' (${bestMatch.similarity.toFixed(1)}%)`,
         };
       }
     }
@@ -123,8 +126,14 @@ export class ValidationService {
     let bestMatch: { category: string; similarity: number } | null = null;
 
     for (const validCat of VALID_CATEGORIES) {
-      const similarity = PrecisionAlgorithms.similarity(normalized, validCat.toLowerCase());
-      if (similarity >= 75 && (!bestMatch || similarity > bestMatch.similarity)) {
+      const similarity = PrecisionAlgorithms.similarity(
+        normalized,
+        validCat.toLowerCase(),
+      );
+      if (
+        similarity >= 75 &&
+        (!bestMatch || similarity > bestMatch.similarity)
+      ) {
         bestMatch = { category: validCat, similarity };
       }
     }
@@ -132,7 +141,9 @@ export class ValidationService {
     if (bestMatch) {
       return {
         value: bestMatch.category,
-        reason: `Categoria corrigida com fuzzy matching: '${category}' → '${bestMatch.category}' (${bestMatch.similarity.toFixed(1)}%)`,
+        reason: `Categoria corrigida com fuzzy matching: '${category}' → '${
+          bestMatch.category
+        }' (${bestMatch.similarity.toFixed(1)}%)`,
       };
     }
 
@@ -182,7 +193,10 @@ export class ValidationService {
       const { min: minPrice, max: maxPrice } = marketRange;
 
       // Análise avançada
-      const analysis = AdvancedBusinessRules.analyzePriceAnomaly(price, category);
+      const analysis = AdvancedBusinessRules.analyzePriceAnomaly(
+        price,
+        category,
+      );
 
       return {
         isValid: analysis.isValid,
@@ -196,7 +210,12 @@ export class ValidationService {
       if (error instanceof InvalidPriceException) {
         throw error;
       }
-      throw new InvalidPriceException(price, `Erro ao validar: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
+      throw new InvalidPriceException(
+        price,
+        `Erro ao validar: ${
+          error instanceof Error ? error.message : 'Erro desconhecido'
+        }`,
+      );
     }
   }
 
@@ -205,7 +224,7 @@ export class ValidationService {
    */
   private getDataCompleteness(record: ValidationRecordDto): number {
     let completeness = 0;
-    let totalFields = 4;
+    const totalFields = 4;
 
     if (record.produto?.trim()) completeness++;
     if (record.categoria?.trim()) completeness++;
@@ -231,14 +250,20 @@ export class ValidationService {
       return this.performValidation(record);
     } catch (error) {
       // Se é uma exceção customizada, relançar
-      if (error instanceof InvalidPriceException ||
-          error instanceof InvalidCategoryException ||
-          error instanceof InvalidCityException ||
-          error instanceof InvalidProductNameException) {
+      if (
+        error instanceof InvalidPriceException ||
+        error instanceof InvalidCategoryException ||
+        error instanceof InvalidCityException ||
+        error instanceof InvalidProductNameException
+      ) {
         throw error;
       }
       // Se é um erro genérico, retornar resultado com status QUARENTENA
-      throw new Error(`Erro durante validação: ${error instanceof Error ? error.message : 'Erro desconhecido'}`);
+      throw new Error(
+        `Erro durante validação: ${
+          error instanceof Error ? error.message : 'Erro desconhecido'
+        }`,
+      );
     }
   }
 
@@ -267,7 +292,9 @@ export class ValidationService {
       }
 
       // Verifica qualidade do nome do produto
-      const productQuality = PrecisionAlgorithms.stringQualityScore(dadoCorrigido.produto);
+      const productQuality = PrecisionAlgorithms.stringQualityScore(
+        dadoCorrigido.produto,
+      );
       if (productQuality < 60) {
         qualityScore -= 15;
       }
@@ -310,9 +337,8 @@ export class ValidationService {
     // 4. PADRONIZAÇÃO DE CIDADE
     if (dadoCorrigido.cidade) {
       const cidadeOriginal = dadoCorrigido.cidade;
-      const { value: cidadeCorrigida, reason: msgCity } = this.standardizeCity(
-        cidadeOriginal,
-      );
+      const { value: cidadeCorrigida, reason: msgCity } =
+        this.standardizeCity(cidadeOriginal);
       dadoCorrigido.cidade = cidadeCorrigida;
       if (msgCity) {
         motivos.push(msgCity);
@@ -324,7 +350,10 @@ export class ValidationService {
       const preco = parseFloat(dadoCorrigido.preco);
       const categoria = dadoCorrigido.categoria || 'Outros';
 
-      const { isValid, reason, quality, confidence } = this.validatePrice(preco, categoria);
+      const { isValid, reason, quality, confidence } = this.validatePrice(
+        preco,
+        categoria,
+      );
 
       qualityScore = Math.min(qualityScore, quality);
       confidenceLevel = Math.min(confidenceLevel, confidence);
@@ -339,7 +368,8 @@ export class ValidationService {
     }
 
     // 6. VALIDAÇÃO DE CONSISTÊNCIA ENTRE CAMPOS
-    const consistencyAlerts = AdvancedBusinessRules.validateFieldConsistency(dadoCorrigido);
+    const consistencyAlerts =
+      AdvancedBusinessRules.validateFieldConsistency(dadoCorrigido);
     alerts.push(...consistencyAlerts);
 
     // 7. DETECÇÃO DE CARACTERES INVÁLIDOS
@@ -373,12 +403,16 @@ export class ValidationService {
       );
       const criticalAlerts = alerts.filter((a) => a.severity === 'CRÍTICO');
       if (criticalAlerts.length > 0) {
-        recommendations.push('⚠️ CRÍTICO: Existem problemas que precisam correção imediata');
+        recommendations.push(
+          '⚠️ CRÍTICO: Existem problemas que precisam correção imediata',
+        );
       }
     }
 
     if (confidenceLevel < 50) {
-      recommendations.push('⚠️ Confiança baixa nos dados - validação manual recomendada');
+      recommendations.push(
+        '⚠️ Confiança baixa nos dados - validação manual recomendada',
+      );
     }
 
     const resultado: ValidationResultDto = {
@@ -408,9 +442,9 @@ export class ValidationService {
     return resultado;
   }
 
-  public batchValidate(records: ValidationRecordDto[]): any {
+  public batchValidate(records: ValidationRecordDto[]): BatchProcessResponse {
     const startTime = Date.now();
-    const results: any[] = [];
+    const results: BatchValidationResultDto[] = [];
     let successCounter = 0;
 
     for (let index = 0; index < records.length; index++) {
@@ -434,7 +468,11 @@ export class ValidationService {
     const processingTime = Date.now() - startTime;
 
     // Log do processamento em lote
-    AppLogger.logBatchProcess(records.length, successCounter, records.length - successCounter);
+    AppLogger.logBatchProcess(
+      records.length,
+      successCounter,
+      records.length - successCounter,
+    );
 
     return {
       totalRecords: records.length,

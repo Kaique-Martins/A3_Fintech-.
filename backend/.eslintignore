@@ -1,0 +1,3 @@
+# Ignore test spec files that cause parser project issues
+src/**/*.spec.ts
+src/**/__tests__/**

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import '../styles/IntegratedDashboard.css';
 import { api, validationService } from '../services/validationService';
+import { useCountUp } from '../hooks/useCountUp';
 
 interface IntegratedDashboardProps {
   onNavigate: (page: 'dashboard' | 'validator' | 'history' | 'import' | 'agent') => void;
@@ -53,20 +54,23 @@ export const IntegratedDashboard: React.FC<IntegratedDashboardProps> = ({ onNavi
     lastActivityTime: new Date().toISOString(),
   });
 
-  const [moduleStatus, setModuleStatus] = useState<ModuleStatus>({
+  const moduleStatus: ModuleStatus = {
     validator: { status: 'idle' },
     importer: { status: 'idle' },
     agent: { status: 'idle' },
     history: { status: 'idle' },
-  });
-
-  const [loading, setLoading] = useState(true);
+  };
   const [selectedFlow, setSelectedFlow] = useState<'full' | 'agent' | 'validator'>('full');
   const [demoRunning, setDemoRunning] = useState(false);
   const [demoLoading, setDemoLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
   const [demoPreview, setDemoPreview] = useState<DemoPreview | null>(null);
   const [demoNextScenario, setDemoNextScenario] = useState<string>('');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const countImports = useCountUp(metrics.imports);
+  const countValidations = useCountUp(metrics.validations);
+  const countDecisions = useCountUp(metrics.agentDecisions);
+  const countHistory = useCountUp(metrics.historicalRecords);
 
   // Use useRef to track all intervals for proper cleanup
   const intervalsRef = useRef<Array<ReturnType<typeof setInterval>>>([]);
@@ -85,7 +89,6 @@ export const IntegratedDashboard: React.FC<IntegratedDashboardProps> = ({ onNavi
         lastActivityTime: new Date().toISOString(),
       }));
 
-      setLoading(false);
     } catch (error) {
       console.error('Error loading metrics:', error);
     }
@@ -212,6 +215,13 @@ export const IntegratedDashboard: React.FC<IntegratedDashboardProps> = ({ onNavi
         <p>Fluxo completo: Importar → Validar → Agent Autônomo → Histórico</p>
       </div>
 
+      {errorMessage && (
+        <div style={{ background: '#fee2e2', border: '1px solid #f87171', color: '#991b1b', padding: '10px 16px', borderRadius: '8px', marginBottom: '12px', display: 'flex', justifyContent: 'space-between' }}>
+          <span>{errorMessage}</span>
+          <button onClick={() => setErrorMessage('')} style={{ background: 'none', border: 'none', cursor: 'pointer', color: '#991b1b' }}>×</button>
+        </div>
+      )}
+
       {/* Flow Selection */}
       <div className="flow-selector">
         <button
@@ -241,7 +251,7 @@ export const IntegratedDashboard: React.FC<IntegratedDashboardProps> = ({ onNavi
             <span className="metric-icon">📤</span>
             <h3>Importações</h3>
           </div>
-          <div className="metric-value">{metrics.imports}</div>
+          <div className="metric-value">{countImports}</div>
           <div className="metric-status">Total de arquivos importados</div>
         </div>
 
@@ -250,7 +260,7 @@ export const IntegratedDashboard: React.FC<IntegratedDashboardProps> = ({ onNavi
             <span className="metric-icon">✅</span>
             <h3>Validações</h3>
           </div>
-          <div className="metric-value">{metrics.validations}</div>
+          <div className="metric-value">{countValidations}</div>
           <div className="metric-status">Registros validados</div>
         </div>
 
@@ -259,7 +269,7 @@ export const IntegratedDashboard: React.FC<IntegratedDashboardProps> = ({ onNavi
             <span className="metric-icon">🤖</span>
             <h3>Decisões do Agent</h3>
           </div>
-          <div className="metric-value">{metrics.agentDecisions}</div>
+          <div className="metric-value">{countDecisions}</div>
           <div className="metric-status">Decisões autônomas tomadas</div>
         </div>
 
@@ -268,7 +278,7 @@ export const IntegratedDashboard: React.FC<IntegratedDashboardProps> = ({ onNavi
             <span className="metric-icon">📚</span>
             <h3>Histórico</h3>
           </div>
-          <div className="metric-value">{metrics.historicalRecords}</div>
+          <div className="metric-value">{countHistory}</div>
           <div className="metric-status">Registros armazenados</div>
         </div>
       </div>

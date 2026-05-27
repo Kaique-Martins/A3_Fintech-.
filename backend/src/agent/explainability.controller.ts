@@ -3,9 +3,11 @@ import { DecisionExplanationService } from './services/decision-explanation.serv
 import { AgentFeedbackService } from './services/agent-feedback.service';
 import { AgentEvolutionService } from './services/agent-evolution.service';
 import { AgentAnomalyDetectorService } from './services/agent-anomaly-detector.service';
+import { DatabaseService } from '../database/database.service';
 import { UserFeedback, AgentReasoningQuery } from './agent-explanation.types';
+import { AgentService } from './agent.service';
 
-@Controller('api/agent/explainability')
+@Controller('agent/explainability')
 export class ExplainabilityController {
   private readonly logger = new Logger(ExplainabilityController.name);
 
@@ -14,6 +16,8 @@ export class ExplainabilityController {
     private readonly feedbackService: AgentFeedbackService,
     private readonly evolutionService: AgentEvolutionService,
     private readonly anomalyDetector: AgentAnomalyDetectorService,
+    private readonly dbService: DatabaseService,
+    private readonly agentService: AgentService,
   ) {}
 
   /**
@@ -61,7 +65,9 @@ export class ExplainabilityController {
 
     return {
       success: true,
-      message: `Feedback recorded: ${body.userAgreement ? 'AGREED' : 'DISAGREED'}`,
+      message: `Feedback recorded: ${
+        body.userAgreement ? 'AGREED' : 'DISAGREED'
+      }`,
       data: {
         agreementRate: this.feedbackService.getUserAgreementRate(),
       },
@@ -74,14 +80,21 @@ export class ExplainabilityController {
    */
   @Get('evolution')
   getEvolution() {
-    return {
+    const latest = this.evolutionService.getLatestEvolution();
+    const recentDecisions = latest
+      ? this.dbService.getDecisions({ limit: 20 })
+      : Promise.resolve([]);
+
+    return Promise.resolve(recentDecisions).then((decisions) => ({
       success: true,
       data: {
         evolutionHistory: this.evolutionService.getEvolutionHistory(),
-        latestMetrics: this.evolutionService.getLatestEvolution(),
+        latestMetrics: latest
+          ? { ...latest, recentDecisions: decisions }
+          : latest,
         report: this.evolutionService.generateEvolutionReport(),
       },
-    };
+    }));
   }
 
   /**
@@ -113,15 +126,35 @@ export class ExplainabilityController {
    */
   @Get('anomalies')
   getAnomalies() {
-    return {
-      success: true,
-      data: {
-        anomalies: this.anomalyDetector.getRecentAnomalies(20),
-        highSeverity: this.anomalyDetector.getAnomaliesBySeverity('HIGH'),
-        mediumSeverity: this.anomalyDetector.getAnomaliesBySeverity('MEDIUM'),
-        report: this.anomalyDetector.generateAnomalyReport(),
-      },
-    };
+    // Also include recent persisted decisions that contain corrected data
+    return this.dbService
+      .getDecisions({ limit: 50 })
+      .then((decisions) => {
+        const correctedRecords = (decisions || [])
+          .filter((d) => d.correctedData && Object.keys(d.correctedData).length > 0)
+          .slice(-20)
+          .map((d) => ({
+            id: d.id,
+            recordId: d.recordId,
+            requestId: d.requestId,
+            ruleVersion: d.ruleVersion,
+            timestamp: d.timestamp,
+            correctedData: d.correctedData,
+            originalInput: d.input || {},
+            motivo: d.reasoning || d.status || '',
+          }));
+
+        return {
+          success: true,
+          data: {
+            anomalies: this.anomalyDetector.getRecentAnomalies(20),
+            highSeverity: this.anomalyDetector.getAnomaliesBySeverity('HIGH'),
+            mediumSeverity: this.anomalyDetector.getAnomaliesBySeverity('MEDIUM'),
+            report: this.anomalyDetector.generateAnomalyReport(),
+            correctedRecords,
+          },
+        };
+      });
   }
 
   /**
@@ -168,34 +201,62 @@ export class ExplainabilityController {
       compareWithTimestamp?: string;
     },
   ) {
-    // Seria necessário recuperar a explanation real do banco de dados
-    // Por enquanto, retorna um placeholder
-    return {
-      success: true,
-      data: {
-        query: body,
-        naturalLanguageExplanation:
-          'Based on the selected rules and their weights, the decision was made with the following reasoning...',
-        detailedBreakdown: [
-          {
-            rule: 'high-quality',
-            impact: 'Matched - increased approval likelihood',
-            percentage: 50,
-          },
-          {
-            rule: 'price-sanity',
-            impact: 'Matched - validated price range',
-            percentage: 30,
-          },
-        ],
-      },
-    };
+    // Try to find the persisted decision by recordId; fallback to latest
+    return this.dbService.getDecisions({ limit: 200 }).then((decisions) => {
+      let target: any = null;
+      if (body.recordId) {
+        target = decisions.find((d) => d.recordId === body.recordId);
+      }
+      if (!target && decisions.length > 0) {
+        target = decisions[decisions.length - 1];
+      }
+
+      if (!target) {
+        return {
+          success: false,
+          message: 'No persisted decisions available to explain',
+        };
+      }
+
+      // Get agent rules and map applied rule ids to full rule objects
+      const agentRules = this.agentService.getConfig().rules || [];
+      const appliedRules = agentRules.filter((r) =>
+        (target.rulesApplied || []).includes(r.id),
+      );
+
+      // Build a simple ruleScores map (uniform weights based on priority)
+      const ruleScores = new Map<string, number>();
+      appliedRules.forEach((r) => {
+        ruleScores.set(r.id, Math.min(100, (r.priority || 1) * 10));
+      });
+
+      const explanation = this.explanationService.generateExplanation(
+        target.recordId,
+        target.decision,
+        target.confidence,
+        appliedRules,
+        target.input ? target.input : {},
+        ruleScores,
+      );
+
+      return {
+        success: true,
+        data: {
+          query: body,
+          explanation,
+          naturalLanguage: this.explanationService.formatForDisplay(explanation),
+        },
+      };
+    });
   }
 
   /**
    * Calcula score de saúde do agent
    */
-  private calculateHealthScore(agreementRate: number, anomalyCount: number): number {
+  private calculateHealthScore(
+    agreementRate: number,
+    anomalyCount: number,
+  ): number {
     const agreementScore = agreementRate;
     const anomalyScore = Math.max(0, 100 - anomalyCount * 10);
     return Math.round((agreementScore + anomalyScore) / 2);

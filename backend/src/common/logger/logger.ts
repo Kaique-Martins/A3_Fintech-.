@@ -47,7 +47,9 @@ if (process.env.NODE_ENV !== 'production') {
       format: winston.format.combine(
         winston.format.colorize(),
         winston.format.printf(({ level, message, timestamp, ...meta }) => {
-          const metaStr = Object.keys(meta).length ? JSON.stringify(meta, null, 2) : '';
+          const metaStr = Object.keys(meta).length
+            ? JSON.stringify(meta, null, 2)
+            : '';
           return `${timestamp} [${level}]: ${message} ${metaStr}`;
         }),
       ),
@@ -101,7 +103,11 @@ export class AppLogger {
     });
   }
 
-  static logBatchProcess(recordsCount: number, successCount: number, failureCount: number) {
+  static logBatchProcess(
+    recordsCount: number,
+    successCount: number,
+    failureCount: number,
+  ) {
     logger.info('Batch processing completed', {
       category: 'batch',
       totalRecords: recordsCount,
@@ -111,7 +117,12 @@ export class AppLogger {
     });
   }
 
-  static logApiRequest(method: string, path: string, statusCode: number, duration: number) {
+  static logApiRequest(
+    method: string,
+    path: string,
+    statusCode: number,
+    duration: number,
+  ) {
     logger.info(`${method} ${path}`, {
       category: 'api',
       method,
@@ -121,7 +132,12 @@ export class AppLogger {
     });
   }
 
-  static logApiError(method: string, path: string, error: any, statusCode: number) {
+  static logApiError(
+    method: string,
+    path: string,
+    error: any,
+    statusCode: number,
+  ) {
     logger.error(`${method} ${path} - Error`, {
       category: 'api_error',
       method,

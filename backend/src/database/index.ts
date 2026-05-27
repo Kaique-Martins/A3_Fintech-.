@@ -11,6 +11,8 @@ export {
 } from './interfaces/repository.interface';
 export { JsonRepository } from './repositories/json.repository';
 export { DatabaseRepository } from './repositories/database.repository';
-export { RepositoryFactory, type RepositoryType } from './repositories/repository.factory';
+export {
+  RepositoryFactory,
+  type RepositoryType,
+} from './repositories/repository.factory';
 export { DatabaseService } from './database.service';
-

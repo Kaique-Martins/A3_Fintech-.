@@ -1,5 +1,8 @@
 import { Controller, Get, Post, Param, Body } from '@nestjs/common';
-import { NotificationService, NotificationSeverity } from './notification.service';
+import {
+  NotificationService,
+  NotificationSeverity,
+} from './notification.service';
 
 @Controller('notifications')
 export class NotificationController {
@@ -67,7 +70,7 @@ export class NotificationController {
    * Clear old notifications
    */
   @Post('clear-old')
-  clearOldNotifications(@Body('hoursAgo') hoursAgo: number = 24) {
+  clearOldNotifications(@Body('hoursAgo') hoursAgo = 24) {
     const removed = this.notificationService.clearOldNotifications(hoursAgo);
     return { message: `${removed} notificações antigas removidas` };
   }

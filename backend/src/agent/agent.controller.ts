@@ -1,8 +1,11 @@
-import { Controller, Get, Post, Body, Param, Put, Query } from '@nestjs/common';
+import { Controller, Get, Post, Delete, Body, Param, Put, Query } from '@nestjs/common';
 import { AgentService } from './agent.service';
 import { AgentSchedulerService } from './agent-scheduler.service';
 import { AgentRule, AgentConfig, AgentDecision } from './agent.types';
-import { ValidationRecordDto, ValidationResultDto } from '../validation/dto/validation.dto';
+import {
+  ValidationRecordDto,
+  ValidationResultDto,
+} from '../validation/dto/validation.dto';
 import { ValidationService } from '../validation/validation.service';
 
 @Controller('agent')
@@ -75,7 +78,7 @@ export class AgentController {
   /**
    * Remove uma regra
    */
-  @Post('rules/:ruleId/delete')
+  @Delete('rules/:ruleId')
   removeRule(@Param('ruleId') ruleId: string) {
     return this.agentService.removeRule(ruleId);
   }
@@ -88,11 +91,18 @@ export class AgentController {
     // Primeiro valida o registro
     const validation = this.validationService.validate(record);
 
+    // Generate or accept requestId and optional ruleVersion
+    const requestId =
+      (record as any).requestId ||
+      `req-${Date.now()}-${Math.random().toString(36).substr(2, 8)}`;
+    const ruleVersion = (record as any).ruleVersion;
+
     // Depois o agente toma uma decisão
     const agentDecision = this.agentService.evaluateValidation(
       `${record.produto}-${Date.now()}`,
       validation,
       record,
+      { requestId, ruleVersion },
     );
 
     return {
@@ -106,15 +116,25 @@ export class AgentController {
    */
   @Post('batch-validate')
   batchValidateWithAgent(@Body() records: ValidationRecordDto[]) {
-    const results: Array<{ rowIndex: number; record: ValidationRecordDto; validation: ValidationResultDto }> = [];
+    const results: Array<{
+      rowIndex: number;
+      record: ValidationRecordDto;
+      validation: ValidationResultDto;
+    }> = [];
     const decisions: AgentDecision[] = [];
 
     for (let i = 0; i < records.length; i++) {
       const validation = this.validationService.validate(records[i]);
+      const requestId =
+        (records[i] as any).requestId ||
+        `req-${Date.now()}-${Math.random().toString(36).substr(2, 8)}`;
+      const ruleVersion = (records[i] as any).ruleVersion;
+
       const decision = this.agentService.evaluateValidation(
         `record-${i}`,
         validation,
         records[i],
+        { requestId, ruleVersion },
       );
 
       results.push({ rowIndex: i + 1, record: records[i], validation });
@@ -130,7 +150,8 @@ export class AgentController {
         rejected: decisions.filter((d) => d.decision === 'REJECTED').length,
         flagged: decisions.filter((d) => d.decision === 'FLAGGED').length,
         avgConfidence:
-          decisions.reduce((sum, d) => sum + d.confidence, 0) / decisions.length,
+          decisions.reduce((sum, d) => sum + d.confidence, 0) /
+          decisions.length,
       },
       agentMetrics: this.agentService.getMetrics(),
     };
@@ -224,8 +245,8 @@ export class AgentController {
    * Retorna tendências de decisões
    */
   @Get('history/trends')
-  getDecisionTrends(@Body('days') days?: number) {
-    return this.agentService.getDecisionTrends(days || 7);
+  getDecisionTrends(@Query('days') days?: string) {
+    return this.agentService.getDecisionTrends(days ? Number(days) : 7);
   }
 
   /**
@@ -257,6 +278,18 @@ export class AgentController {
       data: csv,
       timestamp: new Date().toISOString(),
     };
+  }
+
+  /**
+   * Registra feedback do usuário sobre uma decisão
+   */
+  @Post('feedback/:recordId')
+  async recordFeedback(
+    @Param('recordId') recordId: string,
+    @Body('userAgreement') userAgreement: boolean,
+    @Body('comment') comment?: string,
+  ) {
+    return this.agentService.recordFeedback(recordId, userAgreement, comment);
   }
 
   /**

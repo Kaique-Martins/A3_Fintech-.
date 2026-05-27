@@ -140,7 +140,7 @@ export class PrecisionAlgorithms {
    */
   static findDuplicates(
     items: string[],
-    threshold: number = 85,
+    threshold = 85,
   ): Array<[number, number, number]> {
     const duplicates: Array<[number, number, number]> = [];
 
@@ -162,9 +162,7 @@ export class PrecisionAlgorithms {
   /**
    * Cálculo de confiança em validação (0-100)
    */
-  static confidenceScore(
-    factors: { [key: string]: number },
-  ): {
+  static confidenceScore(factors: { [key: string]: number }): {
     score: number;
     reasons: string[];
   } {

@@ -1,4 +1,6 @@
 import { NestFactory } from '@nestjs/core';
+import { ValidationPipe } from '@nestjs/common';
+import helmet from 'helmet';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { GlobalExceptionFilter } from './common/exceptions';
@@ -6,6 +8,8 @@ import { LoggingInterceptor, AppLogger } from './common/logger';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
+  app.use(helmet());
 
   // Enable CORS
   const allowedOrigins = (process.env.CORS_ORIGIN || 'http://localhost:3000')
@@ -21,6 +25,9 @@ async function bootstrap() {
   // Global prefix
   app.setGlobalPrefix('api');
 
+  // Validate and transform incoming request bodies
+  app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+
   // Register global exception filter
   app.useGlobalFilters(new GlobalExceptionFilter());
 
@@ -32,7 +39,7 @@ async function bootstrap() {
     .setTitle('FinTech Validation System API')
     .setDescription(
       'API para validação de dados em tempo real para compliance em transações fintech. ' +
-      'Sistema autônomo com inteligência artificial e detecção de anomalias.',
+        'Sistema autônomo com inteligência artificial e detecção de anomalias.',
     )
     .setVersion('3.0.0')
     .addTag('validation', 'Operações de validação de dados')

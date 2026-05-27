@@ -1,25 +1,11 @@
-import { ValidationRecordDto } from './validation.dto';
-
-export interface BatchValidationItemDto {
-  rowIndex: number;
-  record: ValidationRecordDto;
-}
+import { ValidationRecordDto, ValidationResultDto } from './validation.dto';
 
 export interface BatchValidationResultDto {
   rowIndex: number;
   record: ValidationRecordDto;
-  result: {
-    dado_corrigido: {
-      produto: string;
-      categoria: string;
-      preco: number;
-      cidade: string;
-    };
-    status: 'APROVADO' | 'QUARENTENA';
-    motivo: string;
-  };
+  result?: ValidationResultDto;
   error?: string;
-  agentDecision?: any;
+  agentDecision?: unknown;
 }
 
 export interface BatchProcessResponse {

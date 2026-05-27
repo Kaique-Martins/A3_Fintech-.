@@ -1,0 +1,1590 @@
+[
+  {
+    "recordId": "DEMO-1779840584685-w5vr6hc2d",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:09:44.687Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3905.56,
+      "cidade": "São Paulo"
+    },
+    "correctedData": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3905.56,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840584689-kia8cyz5v"
+  },
+  {
+    "recordId": "DEMO-1779840587701-rf77sas8j",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:09:47.702Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 84,
+    "status": "APROVADO",
+    "input": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "",
+      "preco": 6390.59,
+      "cidade": "RJ"
+    },
+    "correctedData": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "Eletrônicos",
+      "preco": 6390.59,
+      "cidade": "Rio de Janeiro"
+    },
+    "id": "decision-1779840587702-iwyghrqf5"
+  },
+  {
+    "recordId": "DEMO-1779840590706-rok7fcmia",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:09:50.707Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 92,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "eletronicos",
+      "preco": 3001.72,
+      "cidade": "sp"
+    },
+    "correctedData": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "Eletrônicos",
+      "preco": 3001.72,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840590707-ounv5a8j4"
+  },
+  {
+    "recordId": "DEMO-1779840593715-k1v0po9yi",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:09:53.716Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 490.01,
+      "cidade": "Curitiba"
+    },
+    "correctedData": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 490.01,
+      "cidade": "Curitiba"
+    },
+    "id": "decision-1779840593716-vnfnpf1k8"
+  },
+  {
+    "recordId": "DEMO-1779840596718-whpi4k7rb",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:09:56.720Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4351.85,
+      "cidade": "Belo Horizonte"
+    },
+    "correctedData": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4351.85,
+      "cidade": "Belo Horizonte"
+    },
+    "id": "decision-1779840596720-fjt9b54vb"
+  },
+  {
+    "recordId": "DEMO-1779840599727-ve3xch527",
+    "decision": "FLAGGED",
+    "confidence": 75,
+    "rulesApplied": [],
+    "reasoning": "Validação indicou QUARENTENA - marcado para revisão",
+    "timestamp": "2026-05-27T00:09:59.728Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 70,
+    "status": "QUARENTENA",
+    "input": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "correctedData": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "id": "decision-1779840599728-ypoj1y25u"
+  },
+  {
+    "recordId": "DEMO-1779840602730-mlh4f6682",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:10:02.730Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Cesta básica familiar mensal",
+      "preco": 257.89,
+      "cidade": "Recife"
+    },
+    "correctedData": {
+      "produto": "Cesta básica familiar mensal",
+      "categoria": "Alimentos",
+      "preco": 257.89,
+      "cidade": "Recife"
+    },
+    "id": "decision-1779840602731-nxoobkq1c"
+  },
+  {
+    "recordId": "DEMO-1779840605737-ka5nh4ao5",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:05.737Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 83.5,
+      "cidade": "Porto Alegre"
+    },
+    "correctedData": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 83.5,
+      "cidade": "Porto Alegre"
+    },
+    "id": "decision-1779840605738-ranp9t5ae"
+  },
+  {
+    "recordId": "DEMO-1779840608749-x43axar3d",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:08.750Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3920.97,
+      "cidade": "São Paulo"
+    },
+    "correctedData": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3920.97,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840608750-52mjtgqkw"
+  },
+  {
+    "recordId": "DEMO-1779840611764-fv1jo3z1s",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:10:11.765Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 84,
+    "status": "APROVADO",
+    "input": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "",
+      "preco": 6296.47,
+      "cidade": "RJ"
+    },
+    "correctedData": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "Eletrônicos",
+      "preco": 6296.47,
+      "cidade": "Rio de Janeiro"
+    },
+    "id": "decision-1779840611765-er2a5dtsh"
+  },
+  {
+    "recordId": "DEMO-1779840614765-pbg8f46sd",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:14.766Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 92,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "eletronicos",
+      "preco": 3026.57,
+      "cidade": "sp"
+    },
+    "correctedData": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "Eletrônicos",
+      "preco": 3026.57,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840614767-b8283x2kz"
+  },
+  {
+    "recordId": "DEMO-1779840617769-r2yiqm5pv",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:17.770Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 449.51,
+      "cidade": "Curitiba"
+    },
+    "correctedData": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 449.51,
+      "cidade": "Curitiba"
+    },
+    "id": "decision-1779840617770-k9qo53c7y"
+  },
+  {
+    "recordId": "DEMO-1779840620775-8iwydbaej",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:10:20.775Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4174.65,
+      "cidade": "Belo Horizonte"
+    },
+    "correctedData": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4174.65,
+      "cidade": "Belo Horizonte"
+    },
+    "id": "decision-1779840620775-l2ui0fsig"
+  },
+  {
+    "recordId": "DEMO-1779840623778-u5x9brd12",
+    "decision": "FLAGGED",
+    "confidence": 75,
+    "rulesApplied": [],
+    "reasoning": "Validação indicou QUARENTENA - marcado para revisão",
+    "timestamp": "2026-05-27T00:10:23.779Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 70,
+    "status": "QUARENTENA",
+    "input": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "correctedData": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "id": "decision-1779840623780-i4ub20inb"
+  },
+  {
+    "recordId": "DEMO-1779840626782-pkwv8a9yd",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:10:26.783Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Cesta básica familiar mensal",
+      "preco": 252.44,
+      "cidade": "Recife"
+    },
+    "correctedData": {
+      "produto": "Cesta básica familiar mensal",
+      "categoria": "Alimentos",
+      "preco": 252.44,
+      "cidade": "Recife"
+    },
+    "id": "decision-1779840626783-glolx685r"
+  },
+  {
+    "recordId": "DEMO-1779840629783-r69wlxfuq",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:29.784Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 88.42,
+      "cidade": "Porto Alegre"
+    },
+    "correctedData": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 88.42,
+      "cidade": "Porto Alegre"
+    },
+    "id": "decision-1779840629784-1a01kgpp6"
+  },
+  {
+    "recordId": "DEMO-1779840632787-1jhvlphsg",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:32.788Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3869.04,
+      "cidade": "São Paulo"
+    },
+    "correctedData": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3869.04,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840632788-my3s4ttby"
+  },
+  {
+    "recordId": "DEMO-1779840635798-rwu81qcup",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:10:35.799Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 84,
+    "status": "APROVADO",
+    "input": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "",
+      "preco": 6399.54,
+      "cidade": "RJ"
+    },
+    "correctedData": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "Eletrônicos",
+      "preco": 6399.54,
+      "cidade": "Rio de Janeiro"
+    },
+    "id": "decision-1779840635799-7c6gdh6h9"
+  },
+  {
+    "recordId": "DEMO-1779840638798-ejwcxtqxu",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:38.799Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 92,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "eletronicos",
+      "preco": 2890.89,
+      "cidade": "sp"
+    },
+    "correctedData": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "Eletrônicos",
+      "preco": 2890.89,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840638799-dxocx6onm"
+  },
+  {
+    "recordId": "DEMO-1779840641809-6485kbsx6",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:41.809Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 472.47,
+      "cidade": "Curitiba"
+    },
+    "correctedData": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 472.47,
+      "cidade": "Curitiba"
+    },
+    "id": "decision-1779840641810-mlqj8xxcf"
+  },
+  {
+    "recordId": "DEMO-1779840644823-1dpwfsa9o",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:10:44.823Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4507.69,
+      "cidade": "Belo Horizonte"
+    },
+    "correctedData": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4507.69,
+      "cidade": "Belo Horizonte"
+    },
+    "id": "decision-1779840644823-lg2j1sn20"
+  },
+  {
+    "recordId": "DEMO-1779840647836-f2esvg50a",
+    "decision": "FLAGGED",
+    "confidence": 75,
+    "rulesApplied": [],
+    "reasoning": "Validação indicou QUARENTENA - marcado para revisão",
+    "timestamp": "2026-05-27T00:10:47.836Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 70,
+    "status": "QUARENTENA",
+    "input": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "correctedData": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "id": "decision-1779840647837-8yt26byyc"
+  },
+  {
+    "recordId": "DEMO-1779840650844-elgg756ml",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:10:50.844Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Cesta básica familiar mensal",
+      "preco": 251.16,
+      "cidade": "Recife"
+    },
+    "correctedData": {
+      "produto": "Cesta básica familiar mensal",
+      "categoria": "Alimentos",
+      "preco": 251.16,
+      "cidade": "Recife"
+    },
+    "id": "decision-1779840650844-afmds6iqz"
+  },
+  {
+    "recordId": "DEMO-1779840653857-5nptkdgah",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:53.858Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 83.36,
+      "cidade": "Porto Alegre"
+    },
+    "correctedData": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 83.36,
+      "cidade": "Porto Alegre"
+    },
+    "id": "decision-1779840653858-qya5mp6q8"
+  },
+  {
+    "recordId": "DEMO-1779840656872-355jb4795",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:10:56.873Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3877.88,
+      "cidade": "São Paulo"
+    },
+    "correctedData": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3877.88,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840656873-jq5ouj221"
+  },
+  {
+    "recordId": "DEMO-1779840659885-ikpiy2r7e",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:10:59.886Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 84,
+    "status": "APROVADO",
+    "input": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "",
+      "preco": 6221.39,
+      "cidade": "RJ"
+    },
+    "correctedData": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "Eletrônicos",
+      "preco": 6221.39,
+      "cidade": "Rio de Janeiro"
+    },
+    "id": "decision-1779840659886-salm0i0k6"
+  },
+  {
+    "recordId": "DEMO-1779840662891-yvsqmwh0g",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:02.891Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 92,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "eletronicos",
+      "preco": 2934.07,
+      "cidade": "sp"
+    },
+    "correctedData": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "Eletrônicos",
+      "preco": 2934.07,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840662892-sblrslpqp"
+  },
+  {
+    "recordId": "DEMO-1779840665896-ob6x61e8b",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:05.897Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 466.85,
+      "cidade": "Curitiba"
+    },
+    "correctedData": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 466.85,
+      "cidade": "Curitiba"
+    },
+    "id": "decision-1779840665897-ei4abkaig"
+  },
+  {
+    "recordId": "DEMO-1779840668897-xy0yf7yho",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:11:08.898Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4450.71,
+      "cidade": "Belo Horizonte"
+    },
+    "correctedData": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4450.71,
+      "cidade": "Belo Horizonte"
+    },
+    "id": "decision-1779840668898-pfqyorgen"
+  },
+  {
+    "recordId": "DEMO-1779840671898-p2cn5i9cx",
+    "decision": "FLAGGED",
+    "confidence": 75,
+    "rulesApplied": [],
+    "reasoning": "Validação indicou QUARENTENA - marcado para revisão",
+    "timestamp": "2026-05-27T00:11:11.899Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 70,
+    "status": "QUARENTENA",
+    "input": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "correctedData": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "id": "decision-1779840671899-r5miplf8e"
+  },
+  {
+    "recordId": "DEMO-1779840674908-3fm8nzv83",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:11:14.909Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Cesta básica familiar mensal",
+      "preco": 255.27,
+      "cidade": "Recife"
+    },
+    "correctedData": {
+      "produto": "Cesta básica familiar mensal",
+      "categoria": "Alimentos",
+      "preco": 255.27,
+      "cidade": "Recife"
+    },
+    "id": "decision-1779840674909-xqzvug4vc"
+  },
+  {
+    "recordId": "DEMO-1779840677915-ggm19ux19",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:17.916Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 94.61,
+      "cidade": "Porto Alegre"
+    },
+    "correctedData": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 94.61,
+      "cidade": "Porto Alegre"
+    },
+    "id": "decision-1779840677916-82pkg94ve"
+  },
+  {
+    "recordId": "DEMO-1779840680930-nbkzpthsc",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:20.932Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3989.05,
+      "cidade": "São Paulo"
+    },
+    "correctedData": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3989.05,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840680932-ffybopbiq"
+  },
+  {
+    "recordId": "DEMO-1779840683941-s1wknv66q",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:11:23.942Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 84,
+    "status": "APROVADO",
+    "input": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "",
+      "preco": 6294.13,
+      "cidade": "RJ"
+    },
+    "correctedData": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "Eletrônicos",
+      "preco": 6294.13,
+      "cidade": "Rio de Janeiro"
+    },
+    "id": "decision-1779840683943-fjmslh3t1"
+  },
+  {
+    "recordId": "DEMO-1779840686948-h0jhgcz53",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:26.949Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 92,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "eletronicos",
+      "preco": 3076.53,
+      "cidade": "sp"
+    },
+    "correctedData": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "Eletrônicos",
+      "preco": 3076.53,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840686949-dtlbatqev"
+  },
+  {
+    "recordId": "DEMO-1779840689955-h2kjoy534",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:29.956Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 465.47,
+      "cidade": "Curitiba"
+    },
+    "correctedData": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 465.47,
+      "cidade": "Curitiba"
+    },
+    "id": "decision-1779840689956-trss9brr9"
+  },
+  {
+    "recordId": "DEMO-1779840692965-db6nsgct2",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:11:32.966Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4196.22,
+      "cidade": "Belo Horizonte"
+    },
+    "correctedData": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4196.22,
+      "cidade": "Belo Horizonte"
+    },
+    "id": "decision-1779840692966-hv006ddpd"
+  },
+  {
+    "recordId": "DEMO-1779840695966-l5s91v1eo",
+    "decision": "FLAGGED",
+    "confidence": 75,
+    "rulesApplied": [],
+    "reasoning": "Validação indicou QUARENTENA - marcado para revisão",
+    "timestamp": "2026-05-27T00:11:35.967Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 70,
+    "status": "QUARENTENA",
+    "input": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "correctedData": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "id": "decision-1779840695967-zmncefmdd"
+  },
+  {
+    "recordId": "DEMO-1779840698981-uvfgdnxj6",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:11:38.982Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Cesta básica familiar mensal",
+      "preco": 260.74,
+      "cidade": "Recife"
+    },
+    "correctedData": {
+      "produto": "Cesta básica familiar mensal",
+      "categoria": "Alimentos",
+      "preco": 260.74,
+      "cidade": "Recife"
+    },
+    "id": "decision-1779840698982-ikenyuhmm"
+  },
+  {
+    "recordId": "DEMO-1779840701995-e2ial7irn",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:41.996Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 96.9,
+      "cidade": "Porto Alegre"
+    },
+    "correctedData": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 96.9,
+      "cidade": "Porto Alegre"
+    },
+    "id": "decision-1779840701996-hy1eizkz0"
+  },
+  {
+    "recordId": "DEMO-1779840705002-suvem1v25",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:45.002Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3838.14,
+      "cidade": "São Paulo"
+    },
+    "correctedData": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3838.14,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840705002-gf688kf0h"
+  },
+  {
+    "recordId": "DEMO-1779840708016-mdklw8tzj",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:11:48.017Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 84,
+    "status": "APROVADO",
+    "input": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "",
+      "preco": 6180.5,
+      "cidade": "RJ"
+    },
+    "correctedData": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "Eletrônicos",
+      "preco": 6180.5,
+      "cidade": "Rio de Janeiro"
+    },
+    "id": "decision-1779840708017-js6kmsmhn"
+  },
+  {
+    "recordId": "DEMO-1779840711024-k5cfnt9m0",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:51.024Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 92,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "eletronicos",
+      "preco": 2925.17,
+      "cidade": "sp"
+    },
+    "correctedData": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "Eletrônicos",
+      "preco": 2925.17,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840711024-nf7qf8j3m"
+  },
+  {
+    "recordId": "DEMO-1779840714027-86ozub99i",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:11:54.027Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 459.29,
+      "cidade": "Curitiba"
+    },
+    "correctedData": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 459.29,
+      "cidade": "Curitiba"
+    },
+    "id": "decision-1779840714028-inlcznpnb"
+  },
+  {
+    "recordId": "DEMO-1779840717039-f10r6wk8w",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:11:57.040Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4321.6,
+      "cidade": "Belo Horizonte"
+    },
+    "correctedData": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4321.6,
+      "cidade": "Belo Horizonte"
+    },
+    "id": "decision-1779840717040-fwmcxgyju"
+  },
+  {
+    "recordId": "DEMO-1779840720046-t8xxcvt06",
+    "decision": "FLAGGED",
+    "confidence": 75,
+    "rulesApplied": [],
+    "reasoning": "Validação indicou QUARENTENA - marcado para revisão",
+    "timestamp": "2026-05-27T00:12:00.047Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 70,
+    "status": "QUARENTENA",
+    "input": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "correctedData": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "id": "decision-1779840720047-2hb2z845f"
+  },
+  {
+    "recordId": "DEMO-1779840723059-enpna4jln",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:12:03.059Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Cesta básica familiar mensal",
+      "preco": 245.9,
+      "cidade": "Recife"
+    },
+    "correctedData": {
+      "produto": "Cesta básica familiar mensal",
+      "categoria": "Alimentos",
+      "preco": 245.9,
+      "cidade": "Recife"
+    },
+    "id": "decision-1779840723060-1qlmque4u"
+  },
+  {
+    "recordId": "DEMO-1779840726063-ljyhsi2hh",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:12:06.064Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 89.05,
+      "cidade": "Porto Alegre"
+    },
+    "correctedData": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 89.05,
+      "cidade": "Porto Alegre"
+    },
+    "id": "decision-1779840726064-osaj5rty2"
+  },
+  {
+    "recordId": "DEMO-1779840729064-vncbfosra",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:12:09.065Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3888.93,
+      "cidade": "São Paulo"
+    },
+    "correctedData": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3888.93,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840729065-fi6vx595h"
+  },
+  {
+    "recordId": "DEMO-1779840732075-dnv7vf402",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:12:12.076Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 84,
+    "status": "APROVADO",
+    "input": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "",
+      "preco": 6295.58,
+      "cidade": "RJ"
+    },
+    "correctedData": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "Eletrônicos",
+      "preco": 6295.58,
+      "cidade": "Rio de Janeiro"
+    },
+    "id": "decision-1779840732076-4o3253yzo"
+  },
+  {
+    "recordId": "DEMO-1779840735084-s883czzm2",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:12:15.084Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 92,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "eletronicos",
+      "preco": 3046.58,
+      "cidade": "sp"
+    },
+    "correctedData": {
+      "produto": "Smart TV LG 55 polegadas 4K",
+      "categoria": "Eletrônicos",
+      "preco": 3046.58,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840735085-k8k0xygxs"
+  },
+  {
+    "recordId": "DEMO-1779840738095-8xr9q2h5t",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:12:18.096Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 516.08,
+      "cidade": "Curitiba"
+    },
+    "correctedData": {
+      "produto": "Serviço de instalação de ar-condicionado split",
+      "categoria": "Serviços",
+      "preco": 516.08,
+      "cidade": "Curitiba"
+    },
+    "id": "decision-1779840738096-39la8zmim"
+  },
+  {
+    "recordId": "DEMO-1779840741110-1wj25cqov",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:12:21.110Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4410.33,
+      "cidade": "Belo Horizonte"
+    },
+    "correctedData": {
+      "produto": "Geladeira Brastemp Frost Free 375L",
+      "categoria": "Eletrodomésticos",
+      "preco": 4410.33,
+      "cidade": "Belo Horizonte"
+    },
+    "id": "decision-1779840741111-oc4phevu9"
+  },
+  {
+    "recordId": "DEMO-1779840744115-h5d6wehlc",
+    "decision": "FLAGGED",
+    "confidence": 75,
+    "rulesApplied": [],
+    "reasoning": "Validação indicou QUARENTENA - marcado para revisão",
+    "timestamp": "2026-05-27T00:12:24.116Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 70,
+    "status": "QUARENTENA",
+    "input": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "correctedData": {
+      "produto": "Notebook Samsung Book",
+      "categoria": "Eletrônicos",
+      "preco": 0.01,
+      "cidade": "Fortaleza"
+    },
+    "id": "decision-1779840744116-e2qb4fsmr"
+  },
+  {
+    "recordId": "DEMO-1779840747120-0w1pbnpxr",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:12:27.121Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 85,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Cesta básica familiar mensal",
+      "preco": 259.87,
+      "cidade": "Recife"
+    },
+    "correctedData": {
+      "produto": "Cesta básica familiar mensal",
+      "categoria": "Alimentos",
+      "preco": 259.87,
+      "cidade": "Recife"
+    },
+    "id": "decision-1779840747121-nen5yy4yu"
+  },
+  {
+    "recordId": "DEMO-1779840750128-ah634kysc",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:12:30.129Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 96.44,
+      "cidade": "Porto Alegre"
+    },
+    "correctedData": {
+      "produto": "Camiseta algodão premium",
+      "categoria": "Vestuário",
+      "preco": 96.44,
+      "cidade": "Porto Alegre"
+    },
+    "id": "decision-1779840750129-djsz8csrt"
+  },
+  {
+    "recordId": "DEMO-1779840753130-5jmoiwqqu",
+    "decision": "APPROVED",
+    "confidence": 95,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:12:33.131Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 100,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3835.75,
+      "cidade": "São Paulo"
+    },
+    "correctedData": {
+      "produto": "Notebook Dell Inspiron 15 3520",
+      "categoria": "Eletrônicos",
+      "preco": 3835.75,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779840753131-tyabpwtl0"
+  },
+  {
+    "recordId": "DEMO-1779840756131-l57pzdutm",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [],
+    "reasoning": "Validação OK - aprovado por padrão",
+    "timestamp": "2026-05-27T00:12:36.132Z",
+    "isAuto": false,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "qualityScore": 84,
+    "status": "APROVADO",
+    "input": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "",
+      "preco": 6388.01,
+      "cidade": "RJ"
+    },
+    "correctedData": {
+      "produto": "iPhone 15 128GB",
+      "categoria": "Eletrônicos",
+      "preco": 6388.01,
+      "cidade": "Rio de Janeiro"
+    },
+    "id": "decision-1779840756132-qpftjvt7t"
+  },
+  {
+    "recordId": "Maça Vermelha -1779841141124",
+    "decision": "APPROVED",
+    "confidence": 80,
+    "rulesApplied": [
+      "rule-high-quality"
+    ],
+    "reasoning": "✅ Auto-Approve Alta Qualidade",
+    "timestamp": "2026-05-27T00:19:01.124Z",
+    "isAuto": true,
+    "processingTimeMs": 0,
+    "agentVersion": "1.0.0",
+    "requestId": "req-1779841141124-6vhw1hwk",
+    "qualityScore": 92,
+    "status": "APROVADO",
+    "input": {
+      "produto": "Maça Vermelha ",
+      "categoria": "",
+      "preco": 3.5,
+      "cidade": "sao paulo"
+    },
+    "correctedData": {
+      "produto": "Maça Vermelha",
+      "categoria": "Outros",
+      "preco": 3.5,
+      "cidade": "São Paulo"
+    },
+    "id": "decision-1779841141124-azs7oi8pc"
+  }
+]

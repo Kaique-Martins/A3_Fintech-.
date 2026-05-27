@@ -41,22 +41,26 @@ export class AgentSchedulerService {
     this.isRunning = true;
     try {
       this.logger.log('🤖 Agent auto-reprocessing started...');
-      
+
       // Get aggregate stats from previous decisions
       const stats = await this.dbService.getAggregate();
-      
+
       // Check if we have pending decisions that need re-evaluation
       const recentDecisions = await this.dbService.queryDecisions({
         limit: 10,
       });
 
       if (recentDecisions.length > 0) {
-        const flaggedCount = recentDecisions.filter(d => d.decision === 'FLAGGED').length;
+        const flaggedCount = recentDecisions.filter(
+          (d) => d.decision === 'FLAGGED',
+        ).length;
         const avgConfidence = stats.avgConfidence;
 
         this.logger.log(
           `📊 Processed ${stats.totalDecisions} decisions. ` +
-          `Flagged: ${flaggedCount}, Avg Confidence: ${avgConfidence.toFixed(2)}%`
+            `Flagged: ${flaggedCount}, Avg Confidence: ${avgConfidence.toFixed(
+              2,
+            )}%`,
         );
       }
 
@@ -76,10 +80,10 @@ export class AgentSchedulerService {
   async dailyReport() {
     try {
       this.logger.log('📈 Generating daily agent report...');
-      
+
       const stats = await this.dbService.getAggregate();
       const trends = await this.dbService.getDecisionTrends(7);
-      
+
       const report = {
         timestamp: new Date().toISOString(),
         totalDecisions: stats.totalDecisions,
@@ -118,7 +122,9 @@ export class AgentSchedulerService {
    */
   private updateNextRun(): void {
     const now = new Date();
-    const nextRun = new Date(now.getTime() + this.scheduleConfig.intervalSeconds * 1000);
+    const nextRun = new Date(
+      now.getTime() + this.scheduleConfig.intervalSeconds * 1000,
+    );
     this.scheduleConfig.nextRun = nextRun.toISOString();
   }
 
