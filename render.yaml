@@ -1,7 +1,7 @@
 services:
   - type: web
     name: a3-fintech-backend
-    runtime: node
+    env: node
     rootDir: backend
     buildCommand: npm install --legacy-peer-deps --no-workspaces && npm run build
     startCommand: npm run start:prod
@@ -12,3 +12,5 @@ services:
         value: https://a3-fintech.vercel.app
       - key: NODE_VERSION
         value: "18"
+      - key: PORT
+        value: "3001"
