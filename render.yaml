@@ -3,7 +3,7 @@ services:
     name: a3-fintech-backend
     runtime: node
     rootDir: backend
-    buildCommand: npm install && npm run build
+    buildCommand: npm install --legacy-peer-deps && npm run build
     startCommand: npm run start:prod
     plan: free
     branch: entrega
