@@ -43,7 +43,11 @@ export class JsonRepository implements IRepository {
   }
 
   private saveDecisions(decisions: PersistedDecision[]): void {
-    fs.writeFileSync(this.decisionsFilePath, JSON.stringify(decisions, null, 2), 'utf-8');
+    fs.writeFileSync(
+      this.decisionsFilePath,
+      JSON.stringify(decisions, null, 2),
+      'utf-8',
+    );
   }
 
   private loadAggregate(): DecisionAggregate {
@@ -66,7 +70,11 @@ export class JsonRepository implements IRepository {
   }
 
   private saveAggregate(aggregate: DecisionAggregate): void {
-    fs.writeFileSync(this.aggregateFilePath, JSON.stringify(aggregate, null, 2), 'utf-8');
+    fs.writeFileSync(
+      this.aggregateFilePath,
+      JSON.stringify(aggregate, null, 2),
+      'utf-8',
+    );
   }
 
   private computeAggregate(decisions: PersistedDecision[]): DecisionAggregate {
@@ -134,7 +142,9 @@ export class JsonRepository implements IRepository {
       decisions = decisions.filter((d) => d.status === query.status);
     }
     if (query?.ruleId) {
-      decisions = decisions.filter((d) => d.rulesApplied.includes(query.ruleId!));
+      decisions = decisions.filter((d) =>
+        d.rulesApplied.includes(query.ruleId!),
+      );
     }
     if (query?.startDate) {
       const start = new Date(query.startDate);
@@ -151,7 +161,10 @@ export class JsonRepository implements IRepository {
       decisions = decisions.filter((d) => d.confidence <= query.confidenceMax!);
     }
 
-    decisions = decisions.sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
+    decisions = decisions.sort(
+      (a, b) =>
+        new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime(),
+    );
 
     // Apply pagination
     if (query?.offset !== undefined) {
@@ -164,7 +177,10 @@ export class JsonRepository implements IRepository {
     return decisions;
   }
 
-  async getDecisionsByDateRange(startDate: string, endDate: string): Promise<PersistedDecision[]> {
+  async getDecisionsByDateRange(
+    startDate: string,
+    endDate: string,
+  ): Promise<PersistedDecision[]> {
     const decisions = this.loadDecisions();
     const start = new Date(startDate);
     const end = new Date(endDate);
@@ -200,7 +216,11 @@ export class JsonRepository implements IRepository {
 
   async updateAggregate(aggregate: Partial<DecisionAggregate>): Promise<void> {
     const current = this.loadAggregate();
-    const updated = { ...current, ...aggregate, lastUpdate: new Date().toISOString() };
+    const updated = {
+      ...current,
+      ...aggregate,
+      lastUpdate: new Date().toISOString(),
+    };
     this.saveAggregate(updated);
   }
 
@@ -233,6 +253,8 @@ export class JsonRepository implements IRepository {
     const decisions = await this.getAllDecisions(query);
 
     const headers = [
+      'RequestID',
+      'RuleVersion',
       'ID',
       'RecordID',
       'Produto',
@@ -247,6 +269,8 @@ export class JsonRepository implements IRepository {
       'Quality Score',
     ];
     const rows = decisions.map((d) => [
+      d.requestId || '',
+      d.ruleVersion || '',
       d.id,
       d.recordId,
       d.input?.produto || '',
@@ -280,7 +304,11 @@ export class JsonRepository implements IRepository {
     });
   }
 
-  async health(): Promise<{ status: string; timestamp: string; implementation: string }> {
+  async health(): Promise<{
+    status: string;
+    timestamp: string;
+    implementation: string;
+  }> {
     return {
       status: 'healthy',
       timestamp: new Date().toISOString(),

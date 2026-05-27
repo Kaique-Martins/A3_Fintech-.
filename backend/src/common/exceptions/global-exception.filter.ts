@@ -45,15 +45,19 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     else if (exception instanceof HttpException) {
       statusCode = exception.getStatus();
       const exceptionResponse = exception.getResponse();
-      message = typeof exceptionResponse === 'string' 
-        ? exceptionResponse 
-        : (exceptionResponse as any).message || 'Erro HTTP';
+      message =
+        typeof exceptionResponse === 'string'
+          ? exceptionResponse
+          : (exceptionResponse as any).message || 'Erro HTTP';
     }
     // Tratamento de Error genérico
     else if (exception instanceof Error) {
       statusCode = HttpStatus.INTERNAL_SERVER_ERROR;
       message = exception.message;
-      this.logger.error(`Erro não tratado: ${exception.message}`, exception.stack);
+      this.logger.error(
+        `Erro não tratado: ${exception.message}`,
+        exception.stack,
+      );
     }
 
     const errorResponse: ErrorResponse = {

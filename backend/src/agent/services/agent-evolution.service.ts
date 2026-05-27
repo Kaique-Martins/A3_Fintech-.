@@ -72,8 +72,16 @@ export class AgentEvolutionService {
   /**
    * Detecta mudanças de comportamento significativas no agent
    */
-  private detectBehaviorChanges(): { timestamp: string; description: string; impactScore: number }[] {
-    const changes: { timestamp: string; description: string; impactScore: number }[] = [];
+  private detectBehaviorChanges(): {
+    timestamp: string;
+    description: string;
+    impactScore: number;
+  }[] {
+    const changes: {
+      timestamp: string;
+      description: string;
+      impactScore: number;
+    }[] = [];
 
     if (this.evolutionHistory.length < 2) return changes;
 
@@ -81,12 +89,15 @@ export class AgentEvolutionService {
     const previous = this.evolutionHistory[this.evolutionHistory.length - 2];
 
     // Detecta mudança em taxa de concordância
-    const agreementChange = recent.userAgreementRate - previous.userAgreementRate;
+    const agreementChange =
+      recent.userAgreementRate - previous.userAgreementRate;
     if (Math.abs(agreementChange) > 5) {
       const direction = agreementChange > 0 ? 'improved' : 'declined';
       changes.push({
         timestamp: recent.timestamp,
-        description: `User agreement rate ${direction} by ${Math.abs(Math.round(agreementChange))}%`,
+        description: `User agreement rate ${direction} by ${Math.abs(
+          Math.round(agreementChange),
+        )}%`,
         impactScore: Math.abs(agreementChange),
       });
     }
@@ -106,7 +117,9 @@ export class AgentEvolutionService {
           // 10% mudança
           changes.push({
             timestamp: recent.timestamp,
-            description: `Rule "${ruleChange.ruleName}" weight adjusted by ${Math.round(weightDiff * 100)}%`,
+            description: `Rule "${
+              ruleChange.ruleName
+            }" weight adjusted by ${Math.round(weightDiff * 100)}%`,
             impactScore: Math.round(weightDiff * 100),
           });
         }
@@ -154,10 +167,13 @@ export class AgentEvolutionService {
     const changes: string[] = [];
 
     // Compara taxa de concordância
-    const agreementDiff = endState.userAgreementRate - startState.userAgreementRate;
+    const agreementDiff =
+      endState.userAgreementRate - startState.userAgreementRate;
     if (agreementDiff !== 0) {
       changes.push(
-        `Agreement rate: ${startState.userAgreementRate}% → ${endState.userAgreementRate}% (${agreementDiff > 0 ? '+' : ''}${agreementDiff}%)`,
+        `Agreement rate: ${startState.userAgreementRate}% → ${
+          endState.userAgreementRate
+        }% (${agreementDiff > 0 ? '+' : ''}${agreementDiff}%)`,
       );
     }
 

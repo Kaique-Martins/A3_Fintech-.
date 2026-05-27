@@ -63,12 +63,18 @@ export class DecisionExplanationService {
 
       let explanation = '';
       let fieldValue: any = null;
-      let fieldEvaluated = rule.condition.field;
+      const fieldEvaluated = rule.condition.field;
 
       // Extrai o valor do campo da validação
-      if (rule.condition.field === 'quality' || rule.condition.field === 'qualityScore') {
+      if (
+        rule.condition.field === 'quality' ||
+        rule.condition.field === 'qualityScore'
+      ) {
         fieldValue = validation.qualityScore;
-      } else if (rule.condition.field === 'confidence' || rule.condition.field === 'confidenceLevel') {
+      } else if (
+        rule.condition.field === 'confidence' ||
+        rule.condition.field === 'confidenceLevel'
+      ) {
         fieldValue = validation.confidenceLevel;
       } else if (rule.condition.field === 'alerts') {
         fieldValue = validation.alerts?.length || 0;
@@ -110,7 +116,9 @@ export class DecisionExplanationService {
       const weight = evaluation.weight;
       totalWeight += weight;
       // Score é mais alto se regra foi matched
-      const scoreContribution = evaluation.matched ? evaluation.score : 100 - evaluation.score;
+      const scoreContribution = evaluation.matched
+        ? evaluation.score
+        : 100 - evaluation.score;
       weightedSum += scoreContribution * weight;
     });
 
@@ -121,9 +129,11 @@ export class DecisionExplanationService {
   /**
    * Extrai fatores-chave positivos/negativos
    */
-  private extractKeyFactors(
-    evaluations: RuleEvaluation[],
-  ): { positive: string[]; negative: string[]; neutral: string[] } {
+  private extractKeyFactors(evaluations: RuleEvaluation[]): {
+    positive: string[];
+    negative: string[];
+    neutral: string[];
+  } {
     const keyFactors = {
       positive: [] as string[],
       negative: [] as string[],
@@ -140,7 +150,10 @@ export class DecisionExplanationService {
           keyFactors.positive.push(
             `${evaluation.ruleName}: ${evaluation.fieldValue} (score: ${evaluation.score})`,
           );
-        } else if (evaluation.ruleName.includes('low') || evaluation.ruleName.includes('reject')) {
+        } else if (
+          evaluation.ruleName.includes('low') ||
+          evaluation.ruleName.includes('reject')
+        ) {
           keyFactors.negative.push(
             `${evaluation.ruleName}: ${evaluation.fieldValue} (score: ${evaluation.score})`,
           );
@@ -162,7 +175,9 @@ export class DecisionExplanationService {
     score: number,
   ): string {
     const matchedRules = evaluations.filter((evaluation) => evaluation.matched);
-    const unmatchedRules = evaluations.filter((evaluation) => !evaluation.matched);
+    const unmatchedRules = evaluations.filter(
+      (evaluation) => !evaluation.matched,
+    );
 
     let reasoning = '';
 
@@ -218,14 +233,13 @@ export class DecisionExplanationService {
       // Simula mudanças hipotéticas (simplified)
       const baseScore = explanation.finalScore;
       const adjustmentFactor = 1; // Seria mais complexo em produção
-      const newScore = Math.min(
-        100,
-        Math.max(0, baseScore * adjustmentFactor),
-      );
+      const newScore = Math.min(100, Math.max(0, baseScore * adjustmentFactor));
 
       detailedBreakdown.push({
         rule: 'Overall Impact',
-        impact: `Score would change from ${Math.round(baseScore)} to ${Math.round(newScore)}`,
+        impact: `Score would change from ${Math.round(
+          baseScore,
+        )} to ${Math.round(newScore)}`,
         percentage: Math.abs(newScore - baseScore),
       });
     }
@@ -242,7 +256,9 @@ export class DecisionExplanationService {
    */
   formatForDisplay(explanation: DecisionExplanation): string {
     const lines = [
-      `Decision: ${explanation.decision} (${Math.round(explanation.finalScore)}% confidence)`,
+      `Decision: ${explanation.decision} (${Math.round(
+        explanation.finalScore,
+      )}% confidence)`,
       `Reasoning: ${explanation.decisionReasoning}`,
       ``,
       `Rule Breakdown:`,
@@ -251,7 +267,9 @@ export class DecisionExplanationService {
     explanation.ruleEvaluations.forEach((evaluation) => {
       const status = evaluation.matched ? '✅' : '❌';
       lines.push(
-        `  ${status} ${evaluation.ruleName}: ${evaluation.explanation} (weight: ${Math.round(evaluation.weight * 100)}%)`,
+        `  ${status} ${evaluation.ruleName}: ${
+          evaluation.explanation
+        } (weight: ${Math.round(evaluation.weight * 100)}%)`,
       );
     });
 

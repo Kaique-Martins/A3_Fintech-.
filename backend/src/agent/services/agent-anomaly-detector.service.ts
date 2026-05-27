@@ -6,8 +6,10 @@ export class AgentAnomalyDetectorService {
   private readonly logger = new Logger(AgentAnomalyDetectorService.name);
 
   // Rastreia métricas por período
-  private decisionMetrics: Map<string, { approved: number; rejected: number; flagged: number; timestamp: Date }> =
-    new Map();
+  private decisionMetrics: Map<
+    string,
+    { approved: number; rejected: number; flagged: number; timestamp: Date }
+  > = new Map();
   private confidenceHistory: number[] = [];
   private anomalies: AnomalyIndicator[] = [];
 
@@ -50,7 +52,9 @@ export class AgentAnomalyDetectorService {
     if (detectedAnomalies.length > 0) {
       this.anomalies.push(...detectedAnomalies);
       detectedAnomalies.forEach((anomaly) => {
-        this.logger.warn(`🚨 ANOMALY DETECTED: ${anomaly.type} - ${anomaly.description}`);
+        this.logger.warn(
+          `🚨 ANOMALY DETECTED: ${anomaly.type} - ${anomaly.description}`,
+        );
       });
     }
 
@@ -70,11 +74,17 @@ export class AgentAnomalyDetectorService {
     const historicalAverage = this.getHistoricalApprovalRate();
 
     // Se taxa de rejeição está 15% acima da média histórica
-    if (currentRejectionRate > historicalAverage + this.APPROVAL_RATE_THRESHOLD) {
+    if (
+      currentRejectionRate >
+      historicalAverage + this.APPROVAL_RATE_THRESHOLD
+    ) {
       return {
         type: 'UNUSUAL_REJECTION_RATE',
-        severity: currentRejectionRate > historicalAverage + 30 ? 'HIGH' : 'MEDIUM',
-        description: `Rejection rate increased to ${currentRejectionRate.toFixed(1)}% (historical avg: ${historicalAverage.toFixed(1)}%)`,
+        severity:
+          currentRejectionRate > historicalAverage + 30 ? 'HIGH' : 'MEDIUM',
+        description: `Rejection rate increased to ${currentRejectionRate.toFixed(
+          1,
+        )}% (historical avg: ${historicalAverage.toFixed(1)}%)`,
         metrics: {
           expected: historicalAverage,
           actual: currentRejectionRate,
@@ -106,8 +116,11 @@ export class AgentAnomalyDetectorService {
       // Maior threshold para approval
       return {
         type: 'UNUSUAL_APPROVAL_RATE',
-        severity: currentApprovalRate > historicalAverage + 50 ? 'HIGH' : 'MEDIUM',
-        description: `Approval rate increased to ${currentApprovalRate.toFixed(1)}% (historical avg: ${historicalAverage.toFixed(1)}%)`,
+        severity:
+          currentApprovalRate > historicalAverage + 50 ? 'HIGH' : 'MEDIUM',
+        description: `Approval rate increased to ${currentApprovalRate.toFixed(
+          1,
+        )}% (historical avg: ${historicalAverage.toFixed(1)}%)`,
         metrics: {
           expected: historicalAverage,
           actual: currentApprovalRate,
@@ -142,7 +155,9 @@ export class AgentAnomalyDetectorService {
       return {
         type: 'CONFIDENCE_DROP',
         severity: confidenceDrop > 40 ? 'HIGH' : 'MEDIUM',
-        description: `Agent confidence dropped from ${avgOlder.toFixed(1)}% to ${avgRecent.toFixed(1)}%`,
+        description: `Agent confidence dropped from ${avgOlder.toFixed(
+          1,
+        )}% to ${avgRecent.toFixed(1)}%`,
         metrics: {
           expected: avgOlder,
           actual: avgRecent,
@@ -280,7 +295,12 @@ export class AgentAnomalyDetectorService {
    */
   private getPeriodKey(): string {
     const now = new Date();
-    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}-${String(now.getHours()).padStart(2, '0')}h`;
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(
+      2,
+      '0',
+    )}-${String(now.getDate()).padStart(2, '0')}-${String(
+      now.getHours(),
+    ).padStart(2, '0')}h`;
   }
 
   /**
@@ -293,14 +313,16 @@ export class AgentAnomalyDetectorService {
   /**
    * Retorna anomalias recentes (últimas N)
    */
-  getRecentAnomalies(limit: number = 10): AnomalyIndicator[] {
+  getRecentAnomalies(limit = 10): AnomalyIndicator[] {
     return this.anomalies.slice(-limit);
   }
 
   /**
    * Retorna anomalias por severidade
    */
-  getAnomaliesBySeverity(severity: 'LOW' | 'MEDIUM' | 'HIGH'): AnomalyIndicator[] {
+  getAnomaliesBySeverity(
+    severity: 'LOW' | 'MEDIUM' | 'HIGH',
+  ): AnomalyIndicator[] {
     return this.anomalies.filter((a) => a.severity === severity);
   }
 

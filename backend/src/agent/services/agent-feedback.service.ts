@@ -1,8 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
-import {
-  UserFeedback,
-  RuleWeightHistory,
-} from '../agent-explanation.types';
+import { UserFeedback, RuleWeightHistory } from '../agent-explanation.types';
 import { DatabaseService } from '../../database/database.service';
 import { AgentRule } from '../agent.types';
 
@@ -21,7 +18,10 @@ export class AgentFeedbackService {
   /**
    * Registra feedback do usuário sobre uma decisão
    */
-  async recordFeedback(feedback: UserFeedback, appliedRules: string[]): Promise<void> {
+  async recordFeedback(
+    feedback: UserFeedback,
+    appliedRules: string[],
+  ): Promise<void> {
     this.feedbackHistory.push(feedback);
 
     // Se usuário discorda, ajusta pesos automaticamente
@@ -33,9 +33,11 @@ export class AgentFeedbackService {
 
     // Persiste feedback
     await this.persistFeedback(feedback);
-    
+
     this.logger.log(
-      `Feedback recorded for record ${feedback.recordId}: ${feedback.userAgreement ? 'AGREED' : 'DISAGREED'}`,
+      `Feedback recorded for record ${feedback.recordId}: ${
+        feedback.userAgreement ? 'AGREED' : 'DISAGREED'
+      }`,
     );
   }
 
@@ -57,12 +59,17 @@ export class AgentFeedbackService {
 
       // Ajusta peso
       const adjustmentFactor = sentimento === 'positive' ? 1.05 : 0.95;
-      const newWeight = Math.max(0.1, Math.min(2.0, history.currentWeight * adjustmentFactor));
+      const newWeight = Math.max(
+        0.1,
+        Math.min(2.0, history.currentWeight * adjustmentFactor),
+      );
 
       history.weights.push({
         timestamp: new Date().toISOString(),
         weight: newWeight,
-        reason: `User feedback - ${sentimento === 'positive' ? 'agreed' : 'disagreed'} with decision`,
+        reason: `User feedback - ${
+          sentimento === 'positive' ? 'agreed' : 'disagreed'
+        } with decision`,
       });
 
       history.currentWeight = newWeight;
@@ -71,7 +78,9 @@ export class AgentFeedbackService {
       this.ruleWeightHistory.set(ruleId, history);
 
       this.logger.debug(
-        `Adjusted rule ${ruleId} weight from ${(newWeight / adjustmentFactor).toFixed(2)} to ${newWeight.toFixed(2)} (${sentimento})`,
+        `Adjusted rule ${ruleId} weight from ${(
+          newWeight / adjustmentFactor
+        ).toFixed(2)} to ${newWeight.toFixed(2)} (${sentimento})`,
       );
     });
   }

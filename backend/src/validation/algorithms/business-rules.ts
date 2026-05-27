@@ -2,13 +2,7 @@
  * Regras Avançadas de Validação de Negócio
  */
 
-export interface ValidationAlert {
-  severity: 'CRÍTICO' | 'ALTO' | 'MÉDIO' | 'BAIXO' | 'INFO';
-  code: string;
-  message: string;
-  field: string;
-  suggestion?: string;
-}
+import { ValidationAlert } from '../dto/validation.dto';
 
 export interface ValueAnalysis {
   isValid: boolean;
@@ -33,7 +27,16 @@ export class AdvancedBusinessRules {
       minPrice: 15,
       maxPrice: 50000,
       warningRange: [50, 100000],
-      keywords: ['laptop', 'notebook', 'mouse', 'teclado', 'monitor', 'webcam', 'fone', 'headset'],
+      keywords: [
+        'laptop',
+        'notebook',
+        'mouse',
+        'teclado',
+        'monitor',
+        'webcam',
+        'fone',
+        'headset',
+      ],
     },
     Eletrodomésticos: {
       minPrice: 80,
@@ -57,7 +60,13 @@ export class AdvancedBusinessRules {
       minPrice: 20,
       maxPrice: 10000,
       warningRange: [100, 50000],
-      keywords: ['consultoria', 'limpeza', 'reparo', 'instalação', 'manutenção'],
+      keywords: [
+        'consultoria',
+        'limpeza',
+        'reparo',
+        'instalação',
+        'manutenção',
+      ],
     },
     Outros: {
       minPrice: 1,
@@ -80,15 +89,15 @@ export class AdvancedBusinessRules {
         severity: 'ALTO',
         code: 'PRODUCT_TOO_GENERIC',
         field: 'produto',
-        message: 'Nome do produto é muito genérico ou very short',
+        message: 'Nome do produto é muito genérico ou curto demais',
         suggestion: 'Adicione mais detalhes ao nome do produto',
       });
     }
 
     // Produtos conhecidos por ter muitas falsificações
     if (
-      ['iphone', 'airpods', 'rolex', 'prada', 'gucci', 'louis vuitton'].some((brand) =>
-        name.includes(brand),
+      ['iphone', 'airpods', 'rolex', 'prada', 'gucci', 'louis vuitton'].some(
+        (brand) => name.includes(brand),
       )
     ) {
       alerts.push({
@@ -123,7 +132,8 @@ export class AdvancedBusinessRules {
     allPrices?: number[],
   ): ValueAnalysis {
     const alerts: ValidationAlert[] = [];
-    const rules = this.CATEGORY_RULES[category] || this.CATEGORY_RULES['Outros'];
+    const rules =
+      this.CATEGORY_RULES[category] || this.CATEGORY_RULES['Outros'];
     let quality = 100;
     let confidence = 95;
 
@@ -145,7 +155,11 @@ export class AdvancedBusinessRules {
         severity: 'ALTO',
         code: 'PRICE_BELOW_MIN',
         field: 'preco',
-        message: `Preço R$ ${price.toFixed(2)} está abaixo do mínimo típico para ${category} (R$ ${rules.minPrice})`,
+        message: `Preço R$ ${price.toFixed(
+          2,
+        )} está abaixo do mínimo típico para ${category} (R$ ${
+          rules.minPrice
+        })`,
         suggestion: `Mínimo esperado: R$ ${rules.minPrice}`,
       });
       quality -= 30;
@@ -158,7 +172,9 @@ export class AdvancedBusinessRules {
         severity: 'CRÍTICO',
         code: 'PRICE_EXTREME_HIGH',
         field: 'preco',
-        message: `Preço extremamente alto: R$ ${price.toFixed(2)} (${(price / rules.maxPrice).toFixed(1)}x acima do máximo)`,
+        message: `Preço extremamente alto: R$ ${price.toFixed(2)} (${(
+          price / rules.maxPrice
+        ).toFixed(1)}x acima do máximo)`,
         suggestion: `Máximo esperado: R$ ${rules.maxPrice}`,
       });
       quality -= 50;
@@ -181,7 +197,8 @@ export class AdvancedBusinessRules {
     if (allPrices && allPrices.length > 3) {
       const mean = allPrices.reduce((a, b) => a + b) / allPrices.length;
       const variance =
-        allPrices.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) / allPrices.length;
+        allPrices.reduce((sum, val) => sum + Math.pow(val - mean, 2), 0) /
+        allPrices.length;
       const stdDev = Math.sqrt(variance);
 
       if (stdDev > 0) {
@@ -191,8 +208,12 @@ export class AdvancedBusinessRules {
             severity: 'ALTO',
             code: 'STATISTICAL_OUTLIER',
             field: 'preco',
-            message: `Preço é outlier estatístico (Z-score: ${zScore.toFixed(2)})`,
-            suggestion: `Média da categoria: R$ ${mean.toFixed(2)} (desvio: R$ ${stdDev.toFixed(2)})`,
+            message: `Preço é outlier estatístico (Z-score: ${zScore.toFixed(
+              2,
+            )})`,
+            suggestion: `Média da categoria: R$ ${mean.toFixed(
+              2,
+            )} (desvio: R$ ${stdDev.toFixed(2)})`,
           });
           quality -= 25;
           confidence -= 30;

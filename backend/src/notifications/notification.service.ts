@@ -158,7 +158,7 @@ export class NotificationService {
    */
   subscribe(callback: (notification: Notification) => void): () => void {
     this.subscriptions.push(callback);
-    
+
     // Return unsubscribe function
     return () => {
       this.subscriptions = this.subscriptions.filter((s) => s !== callback);
@@ -197,7 +197,10 @@ export class NotificationService {
   /**
    * Get notifications by severity
    */
-  getNotificationsBySeverity(severity: NotificationSeverity, limit = 50): Notification[] {
+  getNotificationsBySeverity(
+    severity: NotificationSeverity,
+    limit = 50,
+  ): Notification[] {
     return this.notifications
       .filter((n) => n.severity === severity)
       .slice(-limit)
@@ -211,10 +214,18 @@ export class NotificationService {
     return {
       total: this.notifications.length,
       unread: this.notifications.filter((n) => !n.read).length,
-      critical: this.notifications.filter((n) => n.severity === NotificationSeverity.CRITICAL).length,
-      warning: this.notifications.filter((n) => n.severity === NotificationSeverity.WARNING).length,
-      error: this.notifications.filter((n) => n.severity === NotificationSeverity.ERROR).length,
-      info: this.notifications.filter((n) => n.severity === NotificationSeverity.INFO).length,
+      critical: this.notifications.filter(
+        (n) => n.severity === NotificationSeverity.CRITICAL,
+      ).length,
+      warning: this.notifications.filter(
+        (n) => n.severity === NotificationSeverity.WARNING,
+      ).length,
+      error: this.notifications.filter(
+        (n) => n.severity === NotificationSeverity.ERROR,
+      ).length,
+      info: this.notifications.filter(
+        (n) => n.severity === NotificationSeverity.INFO,
+      ).length,
     };
   }
 }

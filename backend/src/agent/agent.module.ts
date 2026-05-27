@@ -11,9 +11,10 @@ import { AgentEvolutionService } from './services/agent-evolution.service';
 import { AgentAnomalyDetectorService } from './services/agent-anomaly-detector.service';
 import { ValidationModule } from '../validation/validation.module';
 import { DatabaseModule } from '../database/database.module';
+import { TrainingModule } from '../training/training.module';
 
 @Module({
-  imports: [forwardRef(() => ValidationModule), DatabaseModule],
+  imports: [forwardRef(() => ValidationModule), DatabaseModule, TrainingModule],
   providers: [
     AgentService,
     AgentSchedulerService,

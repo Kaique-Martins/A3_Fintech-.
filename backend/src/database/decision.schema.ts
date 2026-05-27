@@ -1,6 +1,6 @@
 // Defines persistent storage schema for agent decisions
 export interface PersistedDecision {
-  id: string;  // unique decision ID
+  id: string; // unique decision ID
   recordId: string;
   decision: 'APPROVED' | 'REJECTED' | 'FLAGGED' | 'NEUTRAL';
   confidence: number;

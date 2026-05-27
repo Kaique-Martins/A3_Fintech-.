@@ -15,6 +15,8 @@ export interface PersistedDecision {
   isAuto: boolean;
   processingTimeMs: number;
   agentVersion: string;
+  requestId?: string;
+  ruleVersion?: string;
   qualityScore: number;
   status: string;
   input?: {
@@ -62,7 +64,10 @@ export interface IRepository {
   saveDecision(decision: PersistedDecision): Promise<void>;
   getDecision(id: string): Promise<PersistedDecision | null>;
   getAllDecisions(query?: RepositoryQuery): Promise<PersistedDecision[]>;
-  getDecisionsByDateRange(startDate: string, endDate: string): Promise<PersistedDecision[]>;
+  getDecisionsByDateRange(
+    startDate: string,
+    endDate: string,
+  ): Promise<PersistedDecision[]>;
   getDecisionsByRule(ruleId: string): Promise<PersistedDecision[]>;
   deleteDecision(id: string): Promise<void>;
   countDecisions(): Promise<number>;
@@ -77,5 +82,9 @@ export interface IRepository {
 
   // Utilities
   clear(): Promise<void>;
-  health(): Promise<{ status: string; timestamp: string; implementation: string }>;
+  health(): Promise<{
+    status: string;
+    timestamp: string;
+    implementation: string;
+  }>;
 }

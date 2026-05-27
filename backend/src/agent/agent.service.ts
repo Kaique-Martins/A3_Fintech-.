@@ -6,9 +6,14 @@ import {
   AgentDecision,
   DEFAULT_AGENT_CONFIG,
 } from './agent.types';
-import { ValidationResultDto, ValidationRecordDto } from '../validation/dto/validation.dto';
+import {
+  ValidationResultDto,
+  ValidationRecordDto,
+} from '../validation/dto/validation.dto';
 import { DatabaseService } from '../database/database.service';
 import { LearningService } from './learning.service';
+import { AgentFeedbackService } from './services/agent-feedback.service';
+import { TrainingEngineService } from '../training/training-engine.service';
 
 @Injectable()
 export class AgentService {
@@ -17,8 +22,10 @@ export class AgentService {
   constructor(
     private readonly dbService: DatabaseService,
     private readonly learningService: LearningService,
+    private readonly feedbackService: AgentFeedbackService,
+    private readonly trainingEngine: TrainingEngineService,
   ) {}
-  
+
   private agentConfig: AgentConfig = DEFAULT_AGENT_CONFIG;
   private metrics: AgentMetrics = {
     totalProcessed: 0,
@@ -39,6 +46,7 @@ export class AgentService {
     recordId: string,
     validation: ValidationResultDto,
     inputRecord?: ValidationRecordDto,
+    context?: { requestId?: string; ruleVersion?: string },
   ): AgentDecision {
     const startTime = Date.now();
     const appliedRules: string[] = [];
@@ -46,10 +54,15 @@ export class AgentService {
       'NEUTRAL';
     const reasonings: string[] = [];
 
-    // Ordena regras por prioridade (maior primeiro)
+    // Ordena regras por prioridade efetiva = prioridade × peso de feedback
+    // Regras com feedback positivo sobem; com negativo, descem
     const sortedRules = [...this.agentConfig.rules]
       .filter((r) => r.enabled)
-      .sort((a, b) => b.priority - a.priority);
+      .sort((a, b) => {
+        const weightA = this.feedbackService.getRuleWeightFactor(a.id);
+        const weightB = this.feedbackService.getRuleWeightFactor(b.id);
+        return b.priority * weightB - a.priority * weightA;
+      });
 
     // Avalia cada regra
     for (const rule of sortedRules) {
@@ -87,23 +100,91 @@ export class AgentService {
       }
     }
 
+    // ─── Adaptive Response Engine ─────────────────────────────────────────
+    // Consulta exemplos treinados antes de finalizar a decisão.
+    // Se houver match forte (similarity ≥ STRONG_THRESHOLD), o agente
+    // ajusta o comportamento conforme o padrão aprendido.
+    let confidenceAfterTraining = validation.confidenceLevel;
+    let trainingExampleId: string | undefined;
+    try {
+      const contextQuery = this.buildTrainingQuery(validation, inputRecord);
+      const suggestion = this.trainingEngine.suggestForContext(contextQuery);
+
+      if (suggestion.matched && suggestion.topMatch) {
+        confidenceAfterTraining = Math.max(
+          0,
+          Math.min(100, confidenceAfterTraining + suggestion.confidenceBoost),
+        );
+        trainingExampleId = suggestion.topMatch.example.id;
+
+        // Match forte sobrescreve a decisão se houver behavior diferente
+        if (
+          suggestion.influencedByTraining &&
+          suggestion.suggestedBehavior &&
+          suggestion.suggestedBehavior !== 'CUSTOM' &&
+          suggestion.suggestedBehavior !== 'NEUTRAL'
+        ) {
+          const behaviorMap: Record<string, 'APPROVED' | 'REJECTED' | 'FLAGGED' | 'NEUTRAL'> = {
+            APPROVE: 'APPROVED',
+            REJECT: 'REJECTED',
+            FLAG: 'FLAGGED',
+            NEUTRAL: 'NEUTRAL',
+          };
+          const learnedDecision = behaviorMap[suggestion.suggestedBehavior];
+          if (learnedDecision && learnedDecision !== finalDecision) {
+            this.logger.log(
+              `🧠 Treinamento sobrescreveu decisão: ${finalDecision} → ${learnedDecision} (match ${trainingExampleId})`,
+            );
+            finalDecision = learnedDecision;
+          }
+        }
+
+        if (suggestion.suggestedReasoning) {
+          reasonings.push(`🧠 ${suggestion.suggestedReasoning}`);
+        }
+      }
+    } catch (e) {
+      this.logger.warn(`Falha ao consultar training engine: ${(e as Error).message}`);
+    }
+
     // Atualiza métricas
     const processingTime = Date.now() - startTime;
     this.updateMetrics(finalDecision, processingTime);
 
+    const ruleWeights = appliedRules.reduce<Record<string, number>>((acc, ruleId) => {
+      acc[ruleId] = this.feedbackService.getRuleWeightFactor(ruleId);
+      return acc;
+    }, {});
+
     const decision: AgentDecision = {
       recordId,
       decision: finalDecision,
-      confidence: validation.confidenceLevel,
-      rulesApplied: appliedRules,
+      confidence: confidenceAfterTraining,
+      rulesApplied: trainingExampleId
+        ? [...appliedRules, `training:${trainingExampleId}`]
+        : appliedRules,
       reasoning: reasonings.join(' | '),
       timestamp: new Date().toISOString(),
       isAuto: appliedRules.length > 0,
+      requestId: context?.requestId,
+      ruleVersion: context?.ruleVersion,
+      ruleWeights,
     };
 
     this.decisions.push(decision);
 
     // Persist decision to database (fire-and-forget with error handling)
+    // Sanitize inputRecord to avoid leaking internal metadata into persisted input
+    let sanitizedInput: any = undefined;
+    if (inputRecord) {
+      sanitizedInput = { ...inputRecord } as any;
+      // Remove internal/metadata fields if present
+      delete sanitizedInput.requestId;
+      delete sanitizedInput.ruleVersion;
+      delete sanitizedInput._meta;
+      delete sanitizedInput.__meta;
+    }
+
     const decisionData = {
       recordId,
       decision: finalDecision,
@@ -114,16 +195,21 @@ export class AgentService {
       isAuto: appliedRules.length > 0,
       processingTimeMs: processingTime,
       agentVersion: '1.0.0',
+      requestId: context?.requestId,
+      ruleVersion: context?.ruleVersion,
       qualityScore: validation.qualityScore,
       status: validation.status,
-      input: inputRecord,
+      input: sanitizedInput,
       correctedData: validation.dado_corrigido,
     };
 
     // Use setImmediate to ensure database persistence doesn't block response
     setImmediate(() => {
       this.dbService.saveDecision(decisionData).catch((error) => {
-        this.logger.error(`Failed to persist decision for record ${recordId}:`, error);
+        this.logger.error(
+          `Failed to persist decision for record ${recordId}:`,
+          error,
+        );
       });
     });
 
@@ -133,6 +219,28 @@ export class AgentService {
     }
 
     return decision;
+  }
+
+  /**
+   * Constrói o texto de query para retrieval no TrainingEngine.
+   * Combina informações da validação + input para maximizar similarity match.
+   */
+  private buildTrainingQuery(
+    validation: ValidationResultDto,
+    inputRecord?: ValidationRecordDto,
+  ): string {
+    const parts: string[] = [];
+    if (inputRecord?.produto) parts.push(inputRecord.produto);
+    if (inputRecord?.categoria) parts.push(inputRecord.categoria);
+    if (inputRecord?.cidade) parts.push(inputRecord.cidade);
+    parts.push(`status ${validation.status}`);
+    parts.push(`quality ${Math.round(validation.qualityScore)}`);
+    parts.push(`confidence ${Math.round(validation.confidenceLevel)}`);
+    if (validation.alerts?.length) {
+      parts.push(validation.alerts.map((a) => `${a.severity} ${a.message ?? ''}`).join(' '));
+    }
+    if (validation.motivo) parts.push(validation.motivo);
+    return parts.filter(Boolean).join(' ');
   }
 
   /**
@@ -149,9 +257,15 @@ export class AgentService {
 
     switch (rule.condition.operator) {
       case 'lessThan':
-        return typeof fieldValue === 'number' && fieldValue < (rule.condition.value as number);
+        return (
+          typeof fieldValue === 'number' &&
+          fieldValue < (rule.condition.value as number)
+        );
       case 'greaterThan':
-        return typeof fieldValue === 'number' && fieldValue > (rule.condition.value as number);
+        return (
+          typeof fieldValue === 'number' &&
+          fieldValue > (rule.condition.value as number)
+        );
       case 'equals':
         return fieldValue === rule.condition.value;
       case 'contains':
@@ -194,10 +308,7 @@ export class AgentService {
   /**
    * Atualiza métricas do agente
    */
-  private updateMetrics(
-    decision: string,
-    processingTime: number,
-  ): void {
+  private updateMetrics(decision: string, processingTime: number): void {
     this.metrics.totalProcessed++;
 
     switch (decision) {
@@ -218,7 +329,8 @@ export class AgentService {
         processingTime) /
       this.metrics.totalProcessed;
 
-    this.metrics.successRate = (this.metrics.approved / this.metrics.totalProcessed) * 100;
+    this.metrics.successRate =
+      (this.metrics.approved / this.metrics.totalProcessed) * 100;
 
     this.metrics.lastUpdate = new Date().toISOString();
   }
@@ -280,23 +392,25 @@ export class AgentService {
   /**
    * Retorna últimas decisões do agente
    */
-  getDecisions(limit: number = 50): AgentDecision[] {
+  getDecisions(limit = 50): AgentDecision[] {
     return this.decisions.slice(-limit);
   }
 
   /**
    * Retorna histórico persistido de decisões
    */
-  async getPersistedDecisions(query: {
-    limit?: number;
-    decision?: string;
-    status?: string;
-    ruleId?: string;
-    startDate?: string;
-    endDate?: string;
-    minConfidence?: number;
-    maxConfidence?: number;
-  } = {}) {
+  async getPersistedDecisions(
+    query: {
+      limit?: number;
+      decision?: string;
+      status?: string;
+      ruleId?: string;
+      startDate?: string;
+      endDate?: string;
+      minConfidence?: number;
+      maxConfidence?: number;
+    } = {},
+  ) {
     return await this.dbService.queryDecisions({
       limit: query.limit,
       decision: query.decision as any,
@@ -387,9 +501,48 @@ export class AgentService {
       performance: {
         approvalRate: `${((this.metrics.approved / total) * 100).toFixed(1)}%`,
         rejectionRate: `${((this.metrics.rejected / total) * 100).toFixed(1)}%`,
-        reviewRate: `${((this.metrics.flaggedForReview / total) * 100).toFixed(1)}%`,
+        reviewRate: `${((this.metrics.flaggedForReview / total) * 100).toFixed(
+          1,
+        )}%`,
         avgTime: `${this.metrics.avgProcessingTime.toFixed(0)}ms`,
       },
+    };
+  }
+
+  /**
+   * Registra feedback do usuário sobre uma decisão do agente
+   */
+  async recordFeedback(
+    recordId: string,
+    userAgreement: boolean,
+    comment?: string,
+  ): Promise<{ message: string; newWeights: Record<string, number> }> {
+    const decision = this.decisions.find((d) => d.recordId === recordId);
+    const appliedRules = decision?.rulesApplied ?? [];
+
+    await this.feedbackService.recordFeedback(
+      {
+        recordId,
+        userAgreement,
+        userFeedbackText: comment,
+        originalDecision: decision?.decision ?? 'NEUTRAL',
+        timestamp: new Date().toISOString(),
+      },
+      appliedRules,
+    );
+
+    const newWeights = appliedRules.reduce<Record<string, number>>((acc, ruleId) => {
+      acc[ruleId] = this.feedbackService.getRuleWeightFactor(ruleId);
+      return acc;
+    }, {});
+
+    this.logger.log(
+      `Feedback recorded for ${recordId}: ${userAgreement ? 'AGREED' : 'DISAGREED'}`,
+    );
+
+    return {
+      message: `Feedback registrado. ${appliedRules.length} regra(s) ajustada(s).`,
+      newWeights,
     };
   }
 

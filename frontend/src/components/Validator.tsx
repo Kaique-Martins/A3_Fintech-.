@@ -31,7 +31,7 @@ export const Validator: React.FC<ValidatorProps> = ({ onValidate, result, loadin
           ) : (
             <div className="validator-placeholder">
               <div className="placeholder-icon">🔍</div>
-              <p>Preencha o formulário e clique em "Validar"</p>
+              <p>Preencha o formulário e clique em &quot;Validar&quot;</p>
               <p className="placeholder-subtitle">O resultado aparecerá aqui em tempo real</p>
             </div>
           )}

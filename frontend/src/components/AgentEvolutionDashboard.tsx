@@ -15,6 +15,7 @@ interface EvolutionMetric {
   accuracyTrend: { period: string; accuracy: number }[];
   ruleWeightChanges: RuleWeightHistory[];
   behaviorChanges: { timestamp: string; description: string; impactScore: number }[];
+  recentDecisions?: any[];
 }
 
 export const AgentEvolutionDashboard: React.FC = () => {
@@ -273,6 +274,37 @@ export const AgentEvolutionDashboard: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* Recent Decisions Drilldown */}
+      <div style={{ marginTop: '20px' }}>
+        <h4 style={{ margin: '0 0 12px 0' }}>🧾 Recent Decisions</h4>
+        <div style={{ backgroundColor: '#fff', borderRadius: '6px', border: '1px solid #e5e7eb', overflow: 'auto' }}>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr style={{ textAlign: 'left', borderBottom: '1px solid #e5e7eb' }}>
+                <th style={{ padding: '8px', fontSize: '12px', color: '#6b7280' }}>Record</th>
+                <th style={{ padding: '8px', fontSize: '12px', color: '#6b7280' }}>Decision</th>
+                <th style={{ padding: '8px', fontSize: '12px', color: '#6b7280' }}>Confidence</th>
+                <th style={{ padding: '8px', fontSize: '12px', color: '#6b7280' }}>RequestID</th>
+                <th style={{ padding: '8px', fontSize: '12px', color: '#6b7280' }}>RuleVersion</th>
+                <th style={{ padding: '8px', fontSize: '12px', color: '#6b7280' }}>Time</th>
+              </tr>
+            </thead>
+            <tbody>
+              {(evolutionData.recentDecisions || []).map((d: any) => (
+                <tr key={d.id} style={{ borderBottom: '1px solid #f3f4f6' }}>
+                  <td style={{ padding: '8px' }}>{d.recordId}</td>
+                  <td style={{ padding: '8px' }}>{d.decision}</td>
+                  <td style={{ padding: '8px' }}>{d.confidence}</td>
+                  <td style={{ padding: '8px' }}>{d.requestId || '-'}</td>
+                  <td style={{ padding: '8px' }}>{d.ruleVersion || '-'}</td>
+                  <td style={{ padding: '8px' }}>{new Date(d.timestamp).toLocaleString()}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
   );
 };

@@ -69,7 +69,11 @@ export interface AgentEvolutionMetrics {
 }
 
 export interface AnomalyIndicator {
-  type: 'UNUSUAL_REJECTION_RATE' | 'UNUSUAL_APPROVAL_RATE' | 'CONFIDENCE_DROP' | 'RULE_WEIGHT_DRIFT';
+  type:
+    | 'UNUSUAL_REJECTION_RATE'
+    | 'UNUSUAL_APPROVAL_RATE'
+    | 'CONFIDENCE_DROP'
+    | 'RULE_WEIGHT_DRIFT';
   severity: 'LOW' | 'MEDIUM' | 'HIGH';
   description: string;
   metrics: {

@@ -1,7 +1,10 @@
 import { Controller, Get, Post } from '@nestjs/common';
 import { ValidationService } from '../validation/validation.service';
 import { AgentService } from './agent.service';
-import { ValidationRecordDto, ValidationResultDto } from '../validation/dto/validation.dto';
+import {
+  ValidationRecordDto,
+  ValidationResultDto,
+} from '../validation/dto/validation.dto';
 import { Logger } from '@nestjs/common';
 import { AgentDecision } from './agent.types';
 
@@ -138,9 +141,9 @@ export class DemoController {
       this.generateDemoData();
     }, 3000);
 
-    return { 
+    return {
       message: '🎬 Demo started! Generating data every 3 seconds...',
-      status: 'started' 
+      status: 'started',
     };
   }
 
@@ -169,6 +172,20 @@ export class DemoController {
   }
 
   /**
+   * Process a single demo record on demand (step-by-step mode)
+   */
+  @Post('step')
+  stepDemo() {
+    this.generateDemoData();
+    return {
+      message: '✅ Registro processado',
+      lastSnapshot: this.lastSnapshot,
+      nextScenario:
+        this.demoScenarios[this.demoScenarioIndex % this.demoScenarios.length]?.label,
+    };
+  }
+
+  /**
    * Exibe o último cenário processado pela demo
    */
   @Get('preview')
@@ -176,7 +193,9 @@ export class DemoController {
     return {
       isRunning: this.isRunning,
       lastSnapshot: this.lastSnapshot,
-      nextScenario: this.demoScenarios[this.demoScenarioIndex % this.demoScenarios.length]?.label,
+      nextScenario:
+        this.demoScenarios[this.demoScenarioIndex % this.demoScenarios.length]
+          ?.label,
     };
   }
 
@@ -184,7 +203,9 @@ export class DemoController {
    * Generate a single demo data point and process through entire pipeline
    */
   private generateDemoData() {
-    const recordId = `DEMO-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    const recordId = `DEMO-${Date.now()}-${Math.random()
+      .toString(36)
+      .substr(2, 9)}`;
     const { scenario, validationData } = this.createRandomValidationData();
 
     this.logger.log(`📊 Processing demo record: ${recordId} | ${scenario}`);
@@ -192,7 +213,9 @@ export class DemoController {
     try {
       // Step 1: Validate the data
       const validationResult = this.validationService.validate(validationData);
-      this.logger.log(`  ✓ Validation: ${validationResult.status} | Quality: ${validationResult.qualityScore}`);
+      this.logger.log(
+        `  ✓ Validation: ${validationResult.status} | Quality: ${validationResult.qualityScore}`,
+      );
 
       // Step 2: Agent decision based on validation
       const agentDecision = this.agentService.evaluateValidation(
@@ -200,9 +223,13 @@ export class DemoController {
         validationResult,
         validationData,
       );
-      
+
       this.logger.log(
-        `  ✓ Agent Decision: ${agentDecision.decision} | Confidence: ${agentDecision.confidence.toFixed(2)}% | Rules: ${agentDecision.rulesApplied.join(', ')}`,
+        `  ✓ Agent Decision: ${
+          agentDecision.decision
+        } | Confidence: ${agentDecision.confidence.toFixed(
+          2,
+        )}% | Rules: ${agentDecision.rulesApplied.join(', ')}`,
       );
 
       this.lastSnapshot = {
@@ -228,13 +255,19 @@ export class DemoController {
   /**
    * Create realistic demo data matching ValidationRecordDto
    */
-  private createRandomValidationData(): { scenario: string; validationData: ValidationRecordDto } {
-    const scenario = this.demoScenarios[this.demoScenarioIndex % this.demoScenarios.length];
+  private createRandomValidationData(): {
+    scenario: string;
+    validationData: ValidationRecordDto;
+  } {
+    const scenario =
+      this.demoScenarios[this.demoScenarioIndex % this.demoScenarios.length];
     this.demoScenarioIndex += 1;
 
     const variation = scenario.priceVariationPercent ?? 0;
     const priceMultiplier = 1 + (Math.random() * 2 - 1) * variation;
-    const randomPrice = Number((scenario.product.preco * priceMultiplier).toFixed(2));
+    const randomPrice = Number(
+      (scenario.product.preco * priceMultiplier).toFixed(2),
+    );
 
     return {
       scenario: scenario.label,
@@ -245,4 +278,3 @@ export class DemoController {
     };
   }
 }
-

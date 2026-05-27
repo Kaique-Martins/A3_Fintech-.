@@ -1,24 +1,24 @@
 export const CITIES_MAPPING: Record<string, string> = {
   'sao paulo': 'São Paulo',
-  'sp': 'São Paulo',
+  sp: 'São Paulo',
   'rio de janeiro': 'Rio de Janeiro',
-  'rj': 'Rio de Janeiro',
+  rj: 'Rio de Janeiro',
   'belo horizonte': 'Belo Horizonte',
-  'bh': 'Belo Horizonte',
-  'brasília': 'Brasília',
-  'df': 'Brasília',
-  'curitiba': 'Curitiba',
-  'pr': 'Curitiba',
-  'salvador': 'Salvador',
-  'ba': 'Salvador',
-  'recife': 'Recife',
-  'pe': 'Recife',
-  'fortaleza': 'Fortaleza',
-  'ce': 'Fortaleza',
-  'manaus': 'Manaus',
-  'am': 'Manaus',
+  bh: 'Belo Horizonte',
+  brasília: 'Brasília',
+  df: 'Brasília',
+  curitiba: 'Curitiba',
+  pr: 'Curitiba',
+  salvador: 'Salvador',
+  ba: 'Salvador',
+  recife: 'Recife',
+  pe: 'Recife',
+  fortaleza: 'Fortaleza',
+  ce: 'Fortaleza',
+  manaus: 'Manaus',
+  am: 'Manaus',
   'porto alegre': 'Porto Alegre',
-  'rs': 'Porto Alegre',
+  rs: 'Porto Alegre',
 };
 
 export const VALID_CATEGORIES = [
@@ -31,16 +31,16 @@ export const VALID_CATEGORIES = [
 ];
 
 export const MARKET_PRICES: Record<string, { min: number; max: number }> = {
-  'Eletrônicos': { min: 50, max: 5000 },
-  'Eletrodomésticos': { min: 100, max: 3000 },
-  'Serviços': { min: 20, max: 1000 },
-  'Vestuário': { min: 10, max: 500 },
-  'Alimentos': { min: 5, max: 200 },
-  'Outros': { min: 1, max: 10000 },
+  Eletrônicos: { min: 50, max: 5000 },
+  Eletrodomésticos: { min: 100, max: 3000 },
+  Serviços: { min: 20, max: 1000 },
+  Vestuário: { min: 10, max: 500 },
+  Alimentos: { min: 5, max: 200 },
+  Outros: { min: 1, max: 10000 },
 };
 
 export const CATEGORY_KEYWORDS: Record<string, string[]> = {
-  'Eletrônicos': [
+  Eletrônicos: [
     'notebook',
     'celular',
     'smartphone',
@@ -56,7 +56,7 @@ export const CATEGORY_KEYWORDS: Record<string, string[]> = {
     'samsung',
     'lg',
   ],
-  'Eletrodomésticos': [
+  Eletrodomésticos: [
     'geladeira',
     'fogão',
     'micro-ondas',
@@ -70,7 +70,7 @@ export const CATEGORY_KEYWORDS: Record<string, string[]> = {
     'brastemp',
     'electrolux',
   ],
-  'Serviços': [
+  Serviços: [
     'consultoria',
     'limpeza',
     'manutenção',
@@ -81,7 +81,7 @@ export const CATEGORY_KEYWORDS: Record<string, string[]> = {
     'design',
     'serviço',
   ],
-  'Vestuário': [
+  Vestuário: [
     'camiseta',
     'calça',
     'vestido',
@@ -94,7 +94,7 @@ export const CATEGORY_KEYWORDS: Record<string, string[]> = {
     'meia',
     'roupa',
   ],
-  'Alimentos': [
+  Alimentos: [
     'arroz',
     'feijão',
     'alimento',

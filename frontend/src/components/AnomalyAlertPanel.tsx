@@ -16,6 +16,7 @@ interface AnomalyIndicator {
 
 export const AnomalyAlertPanel: React.FC = () => {
   const [anomalies, setAnomalies] = useState<AnomalyIndicator[]>([]);
+  const [correctedRecords, setCorrectedRecords] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [filter, setFilter] = useState<'ALL' | 'HIGH' | 'MEDIUM' | 'LOW'>('ALL');
 
@@ -30,6 +31,7 @@ export const AnomalyAlertPanel: React.FC = () => {
       const response = await axios.get('/api/agent/explainability/anomalies');
       if (response.data.success) {
         setAnomalies(response.data.data.anomalies || []);
+        setCorrectedRecords(response.data.data.correctedRecords || []);
       }
     } catch (error) {
       console.error('Error loading anomalies:', error);
@@ -231,6 +233,43 @@ export const AnomalyAlertPanel: React.FC = () => {
               ✅ Agent behaving normally - no anomalies detected
             </p>
           </div>
+        )}
+      </div>
+
+      {/* Corrected Records */}
+      <div style={{ marginTop: '20px' }}>
+        <h4 style={{ marginBottom: '8px' }}>✏️ Registros Corrigidos (últimos)</h4>
+        {correctedRecords.length > 0 ? (
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+              <thead>
+                <tr>
+                  <th style={{ textAlign: 'left', padding: '6px' }}>Record ID</th>
+                  <th style={{ textAlign: 'left', padding: '6px' }}>Produto</th>
+                  <th style={{ textAlign: 'left', padding: '6px' }}>Categoria</th>
+                  <th style={{ textAlign: 'left', padding: '6px' }}>Preço</th>
+                  <th style={{ textAlign: 'left', padding: '6px' }}>Cidade</th>
+                  <th style={{ textAlign: 'left', padding: '6px' }}>Motivo</th>
+                  <th style={{ textAlign: 'left', padding: '6px' }}>Timestamp</th>
+                </tr>
+              </thead>
+              <tbody>
+                {correctedRecords.map((r, idx) => (
+                  <tr key={idx} style={{ borderTop: '1px solid #eee' }}>
+                    <td style={{ padding: '6px' }}>{r.recordId}</td>
+                    <td style={{ padding: '6px' }}>{r.correctedData?.produto || '-'}</td>
+                    <td style={{ padding: '6px' }}>{r.correctedData?.categoria || '-'}</td>
+                    <td style={{ padding: '6px' }}>{r.correctedData?.preco ?? '-'}</td>
+                    <td style={{ padding: '6px' }}>{r.correctedData?.cidade || '-'}</td>
+                    <td style={{ padding: '6px' }}>{r.motivo || ''}</td>
+                    <td style={{ padding: '6px' }}>{new Date(r.timestamp).toLocaleString()}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        ) : (
+          <div style={{ color: '#6b7280' }}>Nenhum registro corrigido recentemente.</div>
         )}
       </div>
 

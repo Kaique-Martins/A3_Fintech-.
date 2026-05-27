@@ -20,7 +20,9 @@ export class DatabaseService {
   constructor() {
     // Initialize repository based on configuration
     this.repository = RepositoryFactory.create('auto');
-    this.logger.log(`[DatabaseService] Initialized with repository: ${this.repository.constructor.name}`);
+    this.logger.log(
+      `[DatabaseService] Initialized with repository: ${this.repository.constructor.name}`,
+    );
   }
 
   // ==================== Decision Operations ====================
@@ -28,8 +30,12 @@ export class DatabaseService {
   /**
    * Save a decision to persistent storage
    */
-  async saveDecision(decision: Omit<PersistedDecision, 'id'>): Promise<PersistedDecision> {
-    const id = `decision-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  async saveDecision(
+    decision: Omit<PersistedDecision, 'id'>,
+  ): Promise<PersistedDecision> {
+    const id = `decision-${Date.now()}-${Math.random()
+      .toString(36)
+      .substr(2, 9)}`;
     const persistedDecision: PersistedDecision = {
       ...decision,
       id,
@@ -145,7 +151,11 @@ export class DatabaseService {
   /**
    * Health check for repository
    */
-  async health(): Promise<{ status: string; timestamp: string; implementation: string }> {
+  async health(): Promise<{
+    status: string;
+    timestamp: string;
+    implementation: string;
+  }> {
     return await this.repository.health();
   }
 
